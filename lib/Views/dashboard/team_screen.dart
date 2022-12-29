@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 //import 'package:dio/dio.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:kelashakti/Views/Services/api_service.dart';
@@ -24,43 +25,43 @@ class _TeamScreenState extends State<TeamScreen> {
   TextEditingController nameController= TextEditingController();
   TextEditingController phoneController= TextEditingController();
   TextEditingController passwordController= TextEditingController();
-  void add() async {
-      try{
-        String? userid = await Preferances.getString("userId");
-        String? token = await Preferances.getString("userToken");
-        String? type = await Preferances.getString("userType");
-          Response response = await post(
-
-            Uri.parse('https://tinkubhaiya.provisioningtech.com/post_ajax/add_account/'),
-
-          headers: {
-            'Client-Service': 'frontend-client',
-            'Auth-Key' : 'simplerestapi',
-            "User-ID":userid.toString(),
-            "Authorization":token.toString(),
-            "type":type.toString(),
-          },
-          body: {
-              'name' : nameController.text,
-              'phone': phoneController.text,
-            'password': phoneController.text,
-          }
-        );
-        if(response.statusCode == 200){
-          var data = jsonDecode(response.body.toString());
-          Navigator.push(context, MaterialPageRoute(builder: (context) => BottomNavBar()));
-          print(data);
-          print('login successfully');
-        }else{
-          print('Invalid Details');
-          print('error${response.statusCode}');
-          print('error${response.body}');
-
-        }
-      }catch(e){
-        print(e.toString());
-      }
-    }
+  // void add() async {
+  //     try{
+  //       String? userid = await Preferances.getString("userId");
+  //       String? token = await Preferances.getString("userToken");
+  //       String? type = await Preferances.getString("userType");
+  //         Response response = await post(
+  //
+  //           Uri.parse('https://tinkubhaiya.provisioningtech.com/post_ajax/add_account/'),
+  //
+  //         headers: {
+  //           'Client-Service': 'frontend-client',
+  //           'Auth-Key' : 'simplerestapi',
+  //           "User-ID":userid.toString(),
+  //           "Authorization":token.toString(),
+  //           "type":type.toString(),
+  //         },
+  //         body: {
+  //             'name' : nameController.text,
+  //             'phone': phoneController.text,
+  //           'password': phoneController.text,
+  //         }
+  //       );
+  //       if(response.statusCode == 200){
+  //         var data = jsonDecode(response.body.toString());
+  //         Navigator.push(context, MaterialPageRoute(builder: (context) => BottomNavBar()));
+  //         print(data);
+  //         print('login successfully');
+  //       }else{
+  //         print('Invalid Details');
+  //         print('error${response.statusCode}');
+  //         print('error${response.body}');
+  //
+  //       }
+  //     }catch(e){
+  //       print(e.toString());
+  //     }
+  //   }
 
 
   @override
@@ -150,9 +151,10 @@ class _TeamScreenState extends State<TeamScreen> {
                                   print("name:= ${nameController.text.trim()}");
                                   print("phone:= ${phoneController.text.trim()}");
                                   print("name:= ${passwordController.text.trim()}");
-
-                                  add();
-
+                                  Map<String,dynamic> data = {
+                                    "name": nameController.text.trim(),"phone" : phoneController.text.trim(),"password":passwordController.text.trim()
+                                  };
+                                 ApiService().addAccount(context,data: data);
 
                                 },
                                 buttonText: "Click To Add",
@@ -179,9 +181,10 @@ class _TeamScreenState extends State<TeamScreen> {
       ),
     );
   }
-  // FormData data() {
-  //   return FormData.fromMap({"name": nameController.text.trim(),"phone" : phoneController.text.trim(),"password":passwordController.text.trim()});
-  // }
+
+
+
+
 }
 
 

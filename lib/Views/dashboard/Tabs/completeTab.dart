@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kelashakti/Utils/color_utils.dart';
+import 'package:kelashakti/Views/Services/api_service.dart';
 
 import '../../../Utils/fontFamily_utils.dart';
+import '../../Model/get_all_complete.dart';
 
 class CompleteTab extends StatefulWidget {
   const CompleteTab({Key? key}) : super(key: key);
@@ -12,118 +14,94 @@ class CompleteTab extends StatefulWidget {
 }
 
 class _CompleteTabState extends State<CompleteTab> {
+  List<GetAllCompleteData> getAllCompleteData = [];
+  @override
+  void initState() {
+    // TODO: implement initState
+
+    super.initState();
+    ApiService().complete(context).then((value) {
+      if(value!.message == "ok"){
+        setState(() {
+
+          getAllCompleteData = value.users!;
+         // print(getAllCompleteData);
+
+        });
+      }
+
+    });
+
+  }
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: ColorUtils.skyBlueColor,
-      child: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(5.0),
-          child: Container(
-            color:ColorUtils.whiteColor,
-            child: Table(
+        color: ColorUtils.skyBlueColor,
+        child:
 
-              border: TableBorder(horizontalInside: BorderSide(width: 1, color: Colors.blue, style: BorderStyle.solid)),
-              children: [
-                TableRow(children: [
-                  Column(
-                    children: [
-                      Text(
-                        "Lead",
-                        textAlign: TextAlign.center,
-                        style: FontTextStyle.poppinsS14W4blackColor,
-                      )
-                    ],
+        Padding(
+          padding: const EdgeInsets.all(5.0),
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: SingleChildScrollView(
+              child: DataTable(
+                // border: TableBorder.all(
+                //     color: Colors.black,
+                //     style: BorderStyle.solid,
+                //     width: 2),
+                border: TableBorder(
+                  //right: BorderSide(width: 2,color: Colors.black,),
+                  bottom: BorderSide(width: 2,color: Colors.black,),
+                ),
+                columns: const [
+
+                  DataColumn(label: Text('Lead'),tooltip: "name",),
+                  DataColumn(label: Text('Field Process'),tooltip: "name"),
+                  DataColumn(label: Text('Office process'),tooltip: "name"),
+                  DataColumn(label: Text('Factory process'),tooltip: "name"),
+                  DataColumn(label: Text('Status'),tooltip: "name"),
+
+                ],
+                rows: List.generate(getAllCompleteData.length, (index) {
+                  // int fill=int.parse("${getAllActiveData[index].fIELDPROCESS}");
+                  // int office=int.parse("${getAllActiveData[index].oFFICEPROCESS}");
+                  // int factory=int.parse("${getAllActiveData[index].fACTORYPROCESS}");
+                  return DataRow(cells: [
+                    DataCell(
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text("${getAllCompleteData[index].cUSNAME}"),
+                            Text("${getAllCompleteData[index].cUSPHONE}"),
+                            Text("${getAllCompleteData[index].cUSADDRESS}"),
+
+
+                          ],
+                        )
+                    ),
+                    DataCell(
+                     Text("hi"),
+
+                    ),
+                    DataCell(
+                    Text("hi"),
+
                   ),
-                  Column(
-                    children: [
-                      Text(
-                        "Field Process",
-                        textAlign: TextAlign.center,
-                        style: FontTextStyle.poppinsS14W4blackColor,
-                      )
-                    ],
-                  ),
-                  Column(
-                    children: [
-                      Text(
-                        "Office Process",
-                        textAlign: TextAlign.center,
-                        style: FontTextStyle.poppinsS14W4blackColor,
-                      )
-                    ],
-                  ),
-                  Column(
-                    children: [
-                      Text(
-                        "Factory Process",
-                        textAlign: TextAlign.center,
-                        style: FontTextStyle.poppinsS14W4blackColor,
-                      )
-                    ],
-                  ),
-                  Column(
-                    children: [
-                      Text(
-                        "Status",
-                        textAlign: TextAlign.center,
-                        style: FontTextStyle.poppinsS14W4blackColor,
-                      )
-                    ],
-                  ),
-                ]),
-                TableRow(children: [
-                  Column(
-                    children: [
-                      Text(
-                        "Name Phone ",
-                        textAlign: TextAlign.center,
-                        style: FontTextStyle.poppinsS14W4blackColor,
-                      )
-                    ],
-                  ),
-                  Column(
-                    children: [
-                      Text(
-                        "12-02-22 ",
-                        textAlign: TextAlign.center,
-                        style: FontTextStyle.poppinsS14W4blackColor,
-                      )
-                    ],
-                  ),
-                  Column(
-                    children: [
-                      Text(
-                        "12-02-22 ",
-                        textAlign: TextAlign.center,
-                        style: FontTextStyle.poppinsS14W4blackColor,
-                      )
-                    ],
-                  ),
-                  Column(
-                    children: [
-                      Text(
-                        "12-02-22 ",
-                        textAlign: TextAlign.center,
-                        style: FontTextStyle.poppinsS14W4blackColor,
-                      )
-                    ],
-                  ),
-                  Column(
-                    children: [
-                      Text(
-                        "Comment Here",
-                        textAlign: TextAlign.center,
-                        style: FontTextStyle.poppinsS14W4blackColor,
-                      )
-                    ],
-                  ),
-                ]),
-              ],
+                    DataCell(
+                      Text("hi"),
+
+                    ),
+                    DataCell(
+                        Text("Comment Here")
+                    ),
+                  ]);
+                }),
+
+              ),
+
             ),
           ),
-        ),
-      ),
+        )
     );
   }
 }

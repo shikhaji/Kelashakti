@@ -1,12 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kelashakti/Utils/fontFamily_utils.dart';
+import 'package:kelashakti/Views/Auth/login_screen.dart';
 import 'package:kelashakti/Views/dashboard/Tabs/activeTab.dart';
 import 'package:kelashakti/Views/dashboard/Tabs/cancelTab.dart';
 import 'package:kelashakti/Views/dashboard/Tabs/completeTab.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../Utils/color_utils.dart';
+import '../Services/Shared_preferance.dart';
 
 class DashboardActive extends StatefulWidget {
   const DashboardActive({Key? key}) : super(key: key);
@@ -29,6 +31,14 @@ class _DashboardActiveState extends State<DashboardActive> with SingleTickerProv
             appBar: AppBar(
               leading: Icon(Icons.list),
               title: Text("KelaShakti"),
+              actions: [
+                IconButton(onPressed: (){
+                  Preferances.removeStoredData("userId");
+                  Preferances.removeStoredData("userToken");
+                  Preferances.removeStoredData("userType");
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen()));
+                }, icon:Icon(Icons.logout))
+              ],
               backgroundColor: ColorUtils.blackColor,
             ),
             body: Column(
