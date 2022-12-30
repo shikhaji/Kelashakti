@@ -1,14 +1,12 @@
-import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:kelashakti/Utils/fontFamily_utils.dart';
 import 'package:kelashakti/Views/Services/api_service.dart';
 import 'package:sizer/sizer.dart';
-
 import '../../../Utils/color_utils.dart';
 import '../../Model/get_all_enquiry.dart';
-import 'package:http/http.dart' as http;
+import '../../Services/Shared_preferance.dart';
 
 class ActiveTab extends StatefulWidget {
   const ActiveTab({Key? key}) : super(key: key);
@@ -20,16 +18,14 @@ class ActiveTab extends StatefulWidget {
 class _ActiveTabState extends State<ActiveTab> {
 
   List<GetAllActiveData> getAllActiveData = [];
+
   @override
   void initState() {
-    print("active screen");
-    // TODO: implement initState
     super.initState();
     ApiService().active(context).then((value) {
      if(value!.message == "ok"){
        setState(() {
          getAllActiveData = value.users!;
-
        });
      }
 
@@ -142,6 +138,9 @@ class _ActiveTabState extends State<ActiveTab> {
                         Text("${getAllActiveData[index].cUSNAME}"),
                         Text("${getAllActiveData[index].cUSPHONE}"),
                         Text("${getAllActiveData[index].cUSADDRESS}"),
+                        Text("${getAllActiveData[index].fIELDPROCESS}"),
+
+
 
 
                       ],
@@ -151,26 +150,6 @@ class _ActiveTabState extends State<ActiveTab> {
                      ///// Field Process///////
                      Row(
                        children:[
-                         // for (var i=0;i<4;i++)...[
-                         //   if(i<=fill)
-                         //     Container(
-                         //       margin:EdgeInsets.only(right: 0.5.h),
-                         //       height: 3.h,
-                         //       width: 5.w,
-                         //       decoration: BoxDecoration(
-                         //         color: ColorUtils.green,
-                         //         shape: BoxShape.circle,
-                         //       ),)
-                         //   else
-                         //     Container(
-                         //       margin:EdgeInsets.only(right: 0.5.h),
-                         //       height: 3.h,
-                         //       width: 5.w,
-                         //       decoration: BoxDecoration(
-                         //         color: ColorUtils.blackColor,
-                         //         shape: BoxShape.circle,
-                         //       ),)
-                         // ],
                          Padding(
                            padding: const EdgeInsets.symmetric(horizontal: 5),
                            child: Column(
@@ -179,44 +158,380 @@ class _ActiveTabState extends State<ActiveTab> {
                                Row(
                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                  children: [
-                                   Container(
-                                     margin:EdgeInsets.only(right: 0.5.h),
-                                     height: 3.h,
-                                     width: 5.w,
-                                     decoration: BoxDecoration(
-                                       color: fill>=0 ? ColorUtils.green : ColorUtils.blackColor,
-                                       shape: BoxShape.circle,
-                                     ),),
-                                   Container(
-                                     margin:EdgeInsets.only(right: 0.5.h),
-                                     height: 3.h,
-                                     width: 5.w,
-                                     decoration: BoxDecoration(
-                                       color: fill>=1 ? ColorUtils.green : ColorUtils.blackColor,
-                                       shape: BoxShape.circle,
-                                     ),)
+                                   ////container 1/////
+                                   GestureDetector(
+                                     onTap: (){
+                                       ////api//
+                                       setState(() {
+                                         if(fill>=1)
+                                         getAllActiveData[index].isSelected0=true;
+                                       });
+
+                                       ///ALert box
+
+                                       if(fill==0){
+                                         showDialog(
+                                           context: context,
+                                           builder: (ctx) => AlertDialog(
+                                             title: const Text("Update Field Process"),
+                                             content: const Text("Are You Sure ?"),
+                                             actions: <Widget>[
+
+                                               Row(
+                                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                 children: [
+                                                   TextButton(
+                                                     onPressed: () {
+                                                       Navigator.of(ctx).pop();
+                                                     },
+                                                     child: Container(
+                                                       color: Colors.white,
+                                                       padding: const EdgeInsets.all(14),
+                                                       child: const Text("Cancel"),
+                                                     ),
+                                                   ),
+                                                   TextButton(
+                                                     onPressed: () async {
+                                                       int message=fill+1;
+                                                       String msg=message.toString();
+                                                       var cusid=getAllActiveData[index].cUSID.toString();
+                                                       String? userid = await Preferances.getString("userId");
+                                                       Map<String,dynamic> data = {
+                                                         "id" : cusid,"message" : msg ,"loginid" :userid
+                                                       };
+                                                       print("cusid:-" "${cusid}");
+                                                       print("message::-" "${msg}");
+                                                       print("login id::-" "${userid}");
+                                                       if(fill==0){
+                                                         ApiService().updateField(context,data: data);
+                                                         ApiService().active(context).then((value) {
+                                                           if(value!.message == "ok"){
+                                                             setState(() {
+                                                               getAllActiveData = value.users!;
+
+                                                             });
+                                                           }
+
+                                                         });
+                                                       }
+                                                       else{
+                                                         print("api not called");
+                                                       }
+
+                                                       Navigator.of(ctx).pop();
+                                                     },
+                                                     child: Container(
+                                                       color: Colors.white,
+                                                       padding: const EdgeInsets.all(14),
+                                                       child: const Text("okay"),
+                                                     ),
+                                                   ),
+                                                 ],
+                                               ),
+                                             ],
+                                           ),
+                                         );
+                                       }
+                                       else if(fill>0){
+                                         Fluttertoast.showToast(
+                                             msg: 'Already Updated',
+                                             backgroundColor: Colors.grey,
+                                         );
+                                       }else{
+                                         Fluttertoast.showToast(
+                                           msg: 'First Update Above Process',
+                                           backgroundColor: Colors.grey,
+                                         );
+                                       }
+
+                                       ///ok click per change api call  , get active data api call
+                                     },
+                                     child: Container(
+                                       // Preferances.setString("userId", response.wPSID);
+                                       margin:EdgeInsets.only(right: 0.5.h),
+                                       height: 3.h,
+                                       width: 5.w,
+                                       decoration: BoxDecoration(
+                                         color: fill>=1 ? ColorUtils.green : getAllActiveData[index].isSelected0 == true ? ColorUtils.green : ColorUtils.blackColor,
+                                       //  color: fill>=0 ? ColorUtils.green : ColorUtils.blackColor,
+                                         shape: BoxShape.circle,
+                                       ),),
+                                   ),
+                                   ////container 2/////
+                                   GestureDetector(
+                                    onTap: (){
+                                      setState(() {
+                                        if(fill>=2){
+                                        getAllActiveData[index].isSelected1=true;
+                                        }
+                                      });
+                                      if(fill==1){
+                                        showDialog(
+                                          context: context,
+                                          builder: (ctx) => AlertDialog(
+                                            title: const Text("Update Field Process"),
+                                            content: const Text("Are You Sure ?"),
+                                            actions: <Widget>[
+
+                                              Row(
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                children: [
+                                                  TextButton(
+                                                    onPressed: () {
+                                                      Navigator.of(ctx).pop();
+                                                    },
+                                                    child: Container(
+                                                      color: Colors.white,
+                                                      padding: const EdgeInsets.all(14),
+                                                      child: const Text("Cancel"),
+                                                    ),
+                                                  ),
+                                                  TextButton(
+                                                    onPressed: () async {
+                                                      int message=fill+1;
+                                                      String msg=message.toString();
+                                                      var cusid=getAllActiveData[index].cUSID.toString();
+                                                      String? userid = await Preferances.getString("userId");
+                                                      Map<String,dynamic> data = {
+                                                        "id" : cusid,"message" : msg ,"loginid" :userid
+                                                      };
+                                                      print("wps:-" "${cusid}");
+                                                      print("message" "${message}");
+                                                      print("login id" "${userid}");
+                                                      if(fill==1){
+                                                        ApiService().updateField(context,data: data);
+                                                        ApiService().active(context).then((value) {
+                                                          if(value!.message == "ok"){
+                                                            setState(() {
+                                                              getAllActiveData = value.users!;
+
+                                                            });
+                                                          }
+
+                                                        });
+                                                      }
+
+                                                      Navigator.of(ctx).pop();
+                                                    },
+                                                    child: Container(
+                                                      color: Colors.white,
+                                                      padding: const EdgeInsets.all(14),
+                                                      child: const Text("okay"),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        );
+                                      }
+                                      else if(fill>1){
+                                        Fluttertoast.showToast(
+                                          msg: 'Already Updated',
+                                          backgroundColor: Colors.grey,
+                                        );
+                                      }
+                                      else{
+                                        Fluttertoast.showToast(
+                                          msg: 'First Update Above Process',
+                                          backgroundColor: Colors.grey,
+                                        );
+                                      }
+                                    },
+                                     child: Container(
+
+                                       margin:EdgeInsets.only(right: 0.5.h),
+                                       height: 3.h,
+                                       width: 5.w,
+                                       decoration: BoxDecoration(
+                                         color: fill>=2? ColorUtils.green : getAllActiveData[index].isSelected1== true ? ColorUtils.green : ColorUtils.blackColor,
+                                         shape: BoxShape.circle,
+                                       ),),
+                                   )
                                  ],
 
                                ),
                                Row(
                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                  children: [
-                                   Container(
-                                     margin:EdgeInsets.only(right: 0.5.h),
-                                     height: 3.h,
-                                     width: 5.w,
-                                     decoration: BoxDecoration(
-                                       color: fill>=2 ? ColorUtils.green : ColorUtils.blackColor,
-                                       shape: BoxShape.circle,
-                                     ),),
-                                   Container(
-                                     margin:EdgeInsets.only(right: 0.5.h),
-                                     height: 3.h,
-                                     width: 5.w,
-                                     decoration: BoxDecoration(
-                                       color: fill>=3 ? ColorUtils.green : ColorUtils.blackColor,
-                                       shape: BoxShape.circle,
-                                     ),)
+                                   GestureDetector(
+                                     onTap: (){
+                                       setState(() {
+                                         if(fill>=3){
+                                           getAllActiveData[index].isSelected2=true;
+                                         }
+                                       });
+                                       if(fill==2){
+                                         showDialog(
+                                           context: context,
+                                           builder: (ctx) => AlertDialog(
+                                             title: const Text("Update Field Process"),
+                                             content: const Text("Are You Sure ?"),
+                                             actions: <Widget>[
+
+                                               Row(
+                                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                 children: [
+                                                   TextButton(
+                                                     onPressed: () {
+                                                       Navigator.of(ctx).pop();
+                                                     },
+                                                     child: Container(
+                                                       color: Colors.white,
+                                                       padding: const EdgeInsets.all(14),
+                                                       child: const Text("Cancel"),
+                                                     ),
+                                                   ),
+                                                   TextButton(
+                                                     onPressed: () async {
+                                                       int message=fill+1;
+                                                       String msg=message.toString();
+                                                       var cusid=getAllActiveData[index].cUSID.toString();
+                                                       String? userid = await Preferances.getString("userId");
+                                                       Map<String,dynamic> data = {
+                                                         "id" : cusid,"message" : msg ,"loginid" :userid
+                                                       };
+                                                       print("wps:-" "${cusid}");
+                                                       print("message" "${message}");
+                                                       print("login id" "${userid}");
+                                                       if(fill==2){
+                                                         ApiService().updateField(context,data: data);
+                                                         ApiService().active(context).then((value) {
+                                                           if(value!.message == "ok"){
+                                                             setState(() {
+                                                               getAllActiveData = value.users!;
+
+                                                             });
+                                                           }
+
+                                                         });
+                                                       }
+
+                                                       Navigator.of(ctx).pop();
+                                                     },
+                                                     child: Container(
+                                                       color: Colors.white,
+                                                       padding: const EdgeInsets.all(14),
+                                                       child: const Text("okay"),
+                                                     ),
+                                                   ),
+                                                 ],
+                                               ),
+                                             ],
+                                           ),
+                                         );
+                                       }
+                                       else if(fill>2){
+                                         Fluttertoast.showToast(
+                                           msg: 'Already Updated',
+                                           backgroundColor: Colors.grey,
+                                         );
+                                       }
+                                       else{
+                                         Fluttertoast.showToast(
+                                           msg: 'First Update Above Process',
+                                           backgroundColor: Colors.grey,
+                                         );
+                                       }
+                                     },
+                                     child: Container(
+                                       margin:EdgeInsets.only(right: 0.5.h),
+                                       height: 3.h,
+                                       width: 5.w,
+                                       decoration: BoxDecoration(
+                                         color: fill>=3 ? ColorUtils.green : getAllActiveData[index].isSelected2== true ? ColorUtils.green : ColorUtils.blackColor,
+                                         shape: BoxShape.circle,
+                                       ),),
+                                   ),
+                                   GestureDetector( onTap: (){
+                                     setState(() {
+                                       if(fill>=4){
+                                         getAllActiveData[index].isSelected3=true;
+                                       }
+                                     });
+                                     if(fill==3){
+                                       showDialog(
+                                         context: context,
+                                         builder: (ctx) => AlertDialog(
+                                           title: const Text("Update Field Process"),
+                                           content: const Text("Are You Sure ?"),
+                                           actions: <Widget>[
+
+                                             Row(
+                                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                               children: [
+                                                 TextButton(
+                                                   onPressed: () {
+                                                     Navigator.of(ctx).pop();
+                                                   },
+                                                   child: Container(
+                                                     color: Colors.white,
+                                                     padding: const EdgeInsets.all(14),
+                                                     child: const Text("Cancel"),
+                                                   ),
+                                                 ),
+                                                 TextButton(
+                                                   onPressed: () async {
+                                                     int message=fill+1;
+                                                     String msg=message.toString();
+                                                     var cusid=getAllActiveData[index].cUSID.toString();
+                                                     String? userid = await Preferances.getString("userId");
+                                                     Map<String,dynamic> data = {
+                                                       "id" : cusid,"message" : msg ,"loginid" :userid
+                                                     };
+                                                     print("wps:-" "${cusid}");
+                                                     print("message" "${message}");
+                                                     print("login id" "${userid}");
+                                                     if(fill==3){
+                                                       ApiService().updateField(context,data: data);
+                                                       ApiService().active(context).then((value) {
+                                                         if(value!.message == "ok"){
+                                                           setState(() {
+                                                             getAllActiveData = value.users!;
+
+                                                           });
+                                                         }
+
+                                                       });
+                                                     }
+
+                                                     Navigator.of(ctx).pop();
+                                                   },
+                                                   child: Container(
+                                                     color: Colors.white,
+                                                     padding: const EdgeInsets.all(14),
+                                                     child: const Text("okay"),
+                                                   ),
+                                                 ),
+                                               ],
+                                             ),
+                                           ],
+                                         ),
+                                       );
+                                     }
+                                     else if(fill>3){
+                                       Fluttertoast.showToast(
+                                         msg: 'Already Updated',
+                                         backgroundColor: Colors.grey,
+                                       );
+                                     }
+                                     else{
+                                       Fluttertoast.showToast(
+                                         msg: 'First Update Above Process',
+                                         backgroundColor: Colors.grey,
+                                       );
+                                     }
+
+                                   },
+                                     child: Container(
+                                       margin:EdgeInsets.only(right: 0.5.h),
+                                       height: 3.h,
+                                       width: 5.w,
+                                       decoration: BoxDecoration(
+                                         color: fill>=4? ColorUtils.green : getAllActiveData[index].isSelected3== true ? ColorUtils.green : ColorUtils.blackColor,
+                                         shape: BoxShape.circle,
+                                       ),),
+                                   )
                                  ],
 
                                )
@@ -280,6 +595,7 @@ class _ActiveTabState extends State<ActiveTab> {
                   ),
                   DataCell(
                     ///// Factory Process///////
+
                     Row(
                         children: [
                           Padding(
@@ -307,7 +623,6 @@ class _ActiveTabState extends State<ActiveTab> {
                                         shape: BoxShape.circle,
                                       ),)
                                   ],
-
                                 ),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -329,7 +644,8 @@ class _ActiveTabState extends State<ActiveTab> {
                           )
                         ],
                     ),
-                  ), DataCell(
+                  ),
+                  DataCell(
                     Text("Comment Here")
                   ),
                 ]);
@@ -344,261 +660,3 @@ class _ActiveTabState extends State<ActiveTab> {
   }
 
 }
-//SingleChildScrollView(
-//   child: Padding(
-//     padding: const EdgeInsets.all(5.0),
-//     child: Container(
-//       color: ColorUtils.whiteColor,
-//       child: Column(
-//         crossAxisAlignment: CrossAxisAlignment.start,
-//         children: [
-//           Table(
-//             border: TableBorder.all(
-//                 color: Colors.black,
-//                 style: BorderStyle.solid,
-//                 width: 2),
-//             children: [
-//               TableRow(
-//                   children: [
-//                     Column(
-//                       children: [
-//                         Text("Lead",
-//                           textAlign: TextAlign.center,
-//                           style: FontTextStyle.poppinsS14W4blackColor,)
-//                       ],
-//                     ),
-//                     Column(
-//                       children: [
-//                         Text("Field Process",
-//                           textAlign: TextAlign.center,
-//                           style: FontTextStyle.poppinsS14W4blackColor,)
-//                       ],
-//                     ),
-//                     Column(
-//                       children: [
-//                         Text("Office Process",
-//                           textAlign: TextAlign.center,
-//                           style: FontTextStyle.poppinsS14W4blackColor,)
-//                       ],
-//                     ),
-//                     Column(
-//                       children: [
-//                         Text("Factory Process",
-//                           textAlign: TextAlign.center,
-//                           style: FontTextStyle.poppinsS14W4blackColor,)
-//                       ],
-//                     ),
-//                     Column(
-//                       children: [
-//                         Text("Status",
-//                           textAlign: TextAlign.center,
-//                           style: FontTextStyle.poppinsS14W4blackColor,)
-//                       ],
-//                     ),
-//                   ]
-//               ),
-//             ],
-//           ),
-//           Row(
-//
-//             children: List.generate(getAllActiveData.length, (index) {
-//               return Table(
-//
-//                 border: TableBorder.all(
-//                     color: Colors.black,
-//                     style: BorderStyle.solid,
-//                     width: 2),
-//                 children: [
-//
-//                   TableRow(
-//
-//                       children: [
-//                         Container(
-//                           color: Colors.black,
-//                           padding: EdgeInsets.symmetric(horizontal: 10),
-//                           child: Column(
-//
-//                             children: [
-//                               Text("${getAllActiveData[index].cUSNAME}",textAlign: TextAlign.center,
-//                                 style: FontTextStyle.poppinsS14W4blackColor,),
-//                               Text("${getAllActiveData[index].cUSPHONE}",textAlign: TextAlign.center,
-//                                 style: FontTextStyle.poppinsS14W4blackColor,),
-//                               Text("${getAllActiveData[index].cUSADDRESS}",textAlign: TextAlign.center,
-//                                 style: FontTextStyle.poppinsS14W4blackColor,)
-//                             ],
-//                           ),
-//                         ),
-//                         Padding(
-//                           padding: const EdgeInsets.all(5.0),
-//                           child: Column(
-//
-//                             children: [
-//                               Column(
-//                                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-//                                 children: [
-//                                   Row(
-//                                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-//                                     children: [
-//                                       Container(
-//                                         height: 3.h,
-//                                         width: 5.w,
-//                                         decoration: BoxDecoration(
-//                                           color: ColorUtils.blackColor,
-//                                           shape: BoxShape.circle,
-//                                         ),
-//                                       ),
-//                                       Container(
-//                                         height: 3.h,
-//                                         width: 5.w,
-//                                         decoration: BoxDecoration(
-//                                           color: ColorUtils.blackColor,
-//                                           shape: BoxShape.circle,
-//                                         ),
-//                                       ),
-//                                     ],
-//                                   ),
-//                                   Row(
-//                                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-//                                     children: [
-//                                       Container(
-//                                         height: 3.h,
-//                                         width: 5.w,
-//                                         decoration: BoxDecoration(
-//                                           color: ColorUtils.blackColor,
-//                                           shape: BoxShape.circle,
-//                                         ),
-//                                       ),
-//                                       Container(
-//                                         height: 3.h,
-//                                         width: 5.w,
-//                                         decoration: BoxDecoration(
-//                                           color: ColorUtils.blackColor,
-//                                           shape: BoxShape.circle,
-//                                         ),
-//                                       ),
-//                                     ],
-//                                   ),
-//                                 ],
-//                               )
-//                             ],
-//                           ),
-//                         ),
-//                         Padding(
-//                           padding: const EdgeInsets.all(5.0),
-//                           child: Column(
-//
-//                             children: [
-//                               Column(
-//                                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-//                                 children: [
-//                                   Row(
-//                                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-//                                     children: [
-//                                       Container(
-//                                         height: 3.h,
-//                                         width: 5.w,
-//                                         decoration: BoxDecoration(
-//                                           color: ColorUtils.blackColor,
-//                                           shape: BoxShape.circle,
-//                                         ),
-//                                       ),
-//                                       Container(
-//                                         height: 3.h,
-//                                         width: 5.w,
-//                                         decoration: BoxDecoration(
-//                                           color: ColorUtils.blackColor,
-//                                           shape: BoxShape.circle,
-//                                         ),
-//                                       ),
-//                                     ],
-//                                   ),
-//                                   Row(
-//                                     mainAxisAlignment: MainAxisAlignment.spaceAround,
-//                                     children: [
-//                                       Container(
-//                                         height: 3.h,
-//                                         width: 5.w,
-//                                         decoration: BoxDecoration(
-//                                           color: ColorUtils.blackColor,
-//                                           shape: BoxShape.circle,
-//                                         ),
-//                                       ),
-//
-//                                     ],
-//                                   ),
-//                                 ],
-//                               )
-//                             ],
-//                           ),
-//                         ),
-//                         Padding(
-//                           padding: const EdgeInsets.all(5.0),
-//                           child: Column(
-//
-//                             children: [
-//                               Column(
-//                                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-//                                 children: [
-//                                   Row(
-//                                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-//                                     children: [
-//                                       Container(
-//                                         height: 3.h,
-//                                         width: 5.w,
-//                                         decoration: BoxDecoration(
-//                                           color: ColorUtils.blackColor,
-//                                           shape: BoxShape.circle,
-//                                         ),
-//                                       ),
-//                                       Container(
-//                                         height: 3.h,
-//                                         width: 5.w,
-//                                         decoration: BoxDecoration(
-//                                           color: ColorUtils.blackColor,
-//                                           shape: BoxShape.circle,
-//                                         ),
-//                                       ),
-//                                     ],
-//                                   ),
-//                                   Row(
-//                                     mainAxisAlignment: MainAxisAlignment.spaceAround,
-//                                     children: [
-//                                       Container(
-//                                         height: 3.h,
-//                                         width: 5.w,
-//                                         decoration: BoxDecoration(
-//                                           color: ColorUtils.blackColor,
-//                                           shape: BoxShape.circle,
-//                                         ),
-//                                       ),
-//
-//                                     ],
-//                                   ),
-//                                 ],
-//                               )
-//                             ],
-//                           ),
-//                         ),
-//                         Column(
-//                           children: [
-//                             Text("Comment Here",textAlign: TextAlign.center,
-//                               style: FontTextStyle.poppinsS14W4blackColor,)
-//                           ],
-//                         ),
-//                       ]
-//                   ),
-//
-//
-//
-//
-//
-//                 ],
-//               );
-//             }),
-//           ),
-//
-//         ],
-//       )
-//     ),
-//   ),
-// ),

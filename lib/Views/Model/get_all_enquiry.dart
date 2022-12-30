@@ -47,11 +47,21 @@ class GetAllActiveData {
   String? wPSFACTORYPROCESS;
   String? wPSLOGINID;
   String? wPSLASTCOMMENT;
+  bool? isSelected0;
+  bool? isSelected1;
+  bool? isSelected2;
+  bool? isSelected3;
+
+
 
   GetAllActiveData(
       {this.cUSID,
         this.cUSTT,
         this.cUSNAME,
+        this.isSelected0,
+        this.isSelected1,
+        this.isSelected2,
+        this.isSelected3,
         this.cUSPHONE,
         this.cUSADDRESS,
         this.lEADSTATUS,

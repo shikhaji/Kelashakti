@@ -162,7 +162,7 @@ class _DashboardActiveState extends State<DashboardActive> with SingleTickerProv
                         text: 'Complete',
                       )
                     ]),
-                Expanded(
+                const Expanded(
                   child: TabBarView(children: [
                     ActiveTab(),
                     CancelTab(),

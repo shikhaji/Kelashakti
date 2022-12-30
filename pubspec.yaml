@@ -36,6 +36,8 @@ dependencies:
   connectivity_plus: ^2.3.9
   bot_toast: ^4.0.3
   shared_preferences: ^2.0.15
+  get: ^4.6.1
+
 
 
 

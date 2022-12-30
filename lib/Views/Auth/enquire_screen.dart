@@ -239,7 +239,9 @@ class _EnquireScreenState extends State<EnquireScreen> {
                                     "phone" : phoneController.text.trim(),
                                     "address":addressController.text.trim(),"referto":selectedRefer.toString()
                                   };
-ApiService().enquire(context,data: data);
+ApiService().enquire(context,data: data).then((value){
+  Navigator.push(context, MaterialPageRoute(builder: (context) => BottomNavBar()));
+});
 
                                 },
                                 buttonText: "Click To Add",
@@ -292,7 +294,7 @@ if(getAllUser != null && getAllUser?.users != null){
           // ),
           color: Colors.white),
       child: DropdownButton<String>(
-        value: dropdowncategory.isEmpty ? null : dropdowncategory,
+        value: dropdowncategory.isEmpty ? null: dropdowncategory,
         isExpanded: true,
         underline: Container(),
         hint:  Text("${selectedRefer == "" ?'Select categories' : selectedRefer}"),
