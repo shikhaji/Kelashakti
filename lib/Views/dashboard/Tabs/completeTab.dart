@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kelashakti/Utils/color_utils.dart';
 import 'package:kelashakti/Views/Services/api_service.dart';
+import 'package:sizer/sizer.dart';
+import 'package:intl/intl.dart';
 
 import '../../../Utils/fontFamily_utils.dart';
 import '../../Model/get_all_complete.dart';
@@ -45,14 +47,12 @@ class _CompleteTabState extends State<CompleteTab> {
             scrollDirection: Axis.horizontal,
             child: SingleChildScrollView(
               child: DataTable(
-                // border: TableBorder.all(
-                //     color: Colors.black,
-                //     style: BorderStyle.solid,
-                //     width: 2),
-                border: TableBorder(
-                  //right: BorderSide(width: 2,color: Colors.black,),
-                  bottom: BorderSide(width: 2,color: Colors.black,),
-                ),
+                dataRowHeight: 10.h,
+                border: TableBorder.all(
+
+                    color: Colors.black,
+                    style: BorderStyle.solid,
+                    width: 2),
                 columns: const [
 
                   DataColumn(label: Text('Lead'),tooltip: "name",),
@@ -63,6 +63,8 @@ class _CompleteTabState extends State<CompleteTab> {
 
                 ],
                 rows: List.generate(getAllCompleteData.length, (index) {
+                  var cdate="${getAllCompleteData[index].cUSTT}";
+                 var date=  DateFormat('dd-MM-yyy').format(DateTime.parse("${cdate}"));
                   // int fill=int.parse("${getAllActiveData[index].fIELDPROCESS}");
                   // int office=int.parse("${getAllActiveData[index].oFFICEPROCESS}");
                   // int factory=int.parse("${getAllActiveData[index].fACTORYPROCESS}");
@@ -74,24 +76,19 @@ class _CompleteTabState extends State<CompleteTab> {
                             Text("${getAllCompleteData[index].cUSNAME}"),
                             Text("${getAllCompleteData[index].cUSPHONE}"),
                             Text("${getAllCompleteData[index].cUSADDRESS}"),
-
-
                           ],
                         )
                     ),
                     DataCell(
-                     Text("hi"),
-
+                      Text(date),
                     ),
                     DataCell(
-                    Text("hi"),
-
-                  ),
-                    DataCell(
-                      Text("hi"),
-
+                      Text(date),
                     ),
                     DataCell(
+                      Text(date),
+                    ),
+                    const DataCell(
                         Text("Comment Here")
                     ),
                   ]);

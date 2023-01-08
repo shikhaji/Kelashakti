@@ -95,7 +95,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                             context, data: data()).then((
                                             value) =>
                                         {
-                                          if(value?.status == 200){
+                                          if(value?.message == "ok"){
                                             Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
                                             const BottomNavBar()), (Route<dynamic> route) => false)
                                           }

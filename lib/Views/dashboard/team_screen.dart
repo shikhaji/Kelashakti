@@ -3,12 +3,13 @@ import 'dart:convert';
 //import 'package:dio/dio.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
+import 'package:http/http.dart' as http;
 import 'package:kelashakti/Views/Services/api_service.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../Utils/color_utils.dart';
 import '../../Utils/fontFamily_utils.dart';
+import '../../Utils/loader.dart';
 import '../Services/Shared_preferance.dart';
 import '../customeWidgets/custom_text_field.dart';
 import '../customeWidgets/cutom_btn.dart';
@@ -147,7 +148,11 @@ class _TeamScreenState extends State<TeamScreen> {
                               ),
                               SizedBox(height: 2.h,),
                               CustomButton(
-                                onTap: () {
+                                onTap: () async {
+                                  // String? userid = await Preferances.getString("userId");
+                                  // String? token = await Preferances.getString("userToken");
+                                  // String? type = await Preferances.getString("userType");
+                                  // String? cookie = await Preferances.getString("cookie");
                                   print("name:= ${nameController.text.trim()}");
                                   print("phone:= ${phoneController.text.trim()}");
                                   print("name:= ${passwordController.text.trim()}");
@@ -155,7 +160,35 @@ class _TeamScreenState extends State<TeamScreen> {
                                     "name": nameController.text.trim(),"phone" : phoneController.text.trim(),"password":passwordController.text.trim()
                                   };
                                  ApiService().addAccount(context,data: data);
-
+                                  // print(token!.replaceAll('"', '').replaceAll('"', '').toString());
+                                  // print(cookie!.replaceAll('"', '').replaceAll('"', '').toString());
+                                  // print(type!.replaceAll('"', '').replaceAll('"', '').toString());
+                                  // print(userid!.replaceAll('"', '').replaceAll('"', '').toString());
+                                  // var headers = {
+                                  //   'Client-Service': 'frontend-client',
+                                  //   'Auth-Key': 'simplerestapi',
+                                  //   'User-ID': userid.replaceAll('"', '').replaceAll('"', '').toString(),
+                                  //   'Authorization':token.replaceAll('"', '').replaceAll('"', '').toString(),
+                                  //   'type': type.replaceAll('"', '').replaceAll('"', '').toString(),
+                                  //  'Cookie': cookie.replaceAll('"', '').replaceAll('"', '').toString(),
+                                  // };
+                                  // var request = http.MultipartRequest('POST', Uri.parse('https://tinkubhaiya.provisioningtech.com/post_ajax/add_account/'));
+                                  // request.fields.addAll({
+                                  //   'name': 'henu',
+                                  //   'phone': '8320591633',
+                                  //   'password': '123456'
+                                  // });
+                                  //
+                                  // request.headers.addAll(headers);
+                                  //
+                                  // http.StreamedResponse response = await request.send();
+                                  //
+                                  // if (response.statusCode == 200) {
+                                  //   print(await response.stream.bytesToString());
+                                  // }
+                                  // else {
+                                  //   print(response.reasonPhrase);
+                                  // }
                                 },
                                 buttonText: "Click To Add",
                                 height: 5.h,

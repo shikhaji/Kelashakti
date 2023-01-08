@@ -1,6 +1,7 @@
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:kelashakti/Views/Auth/enquire_screen.dart';
+import 'package:kelashakti/Views/Auth/splash_screen.dart';
 import 'package:sizer/sizer.dart';
 
 import 'Utils/scrren_utils.dart';
@@ -28,7 +29,7 @@ class MyApp extends StatelessWidget {
           return MaterialApp(
               debugShowCheckedModeBanner: false,
               themeMode: ThemeMode.system,
-              home: const LoginScreen(),
+              home: const SplashScreen(),
               builder: (context, child) {
                 return ScrollConfiguration(  behavior: const _ScrollBehaviorModified(),
                 child: LayoutBuilder(builder: (BuildContext context, BoxConstraints constraints) {

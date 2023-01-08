@@ -5,9 +5,11 @@ import 'package:kelashakti/Views/Auth/login_screen.dart';
 import 'package:kelashakti/Views/dashboard/Tabs/activeTab.dart';
 import 'package:kelashakti/Views/dashboard/Tabs/cancelTab.dart';
 import 'package:kelashakti/Views/dashboard/Tabs/completeTab.dart';
+import 'package:kelashakti/Views/dashboard/bottomNavbar.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../Utils/color_utils.dart';
+import '../Auth/enquire_screen.dart';
 import '../Services/Shared_preferance.dart';
 
 class DashboardActive extends StatefulWidget {
@@ -36,7 +38,8 @@ class _DashboardActiveState extends State<DashboardActive> with SingleTickerProv
                   Preferances.removeStoredData("userId");
                   Preferances.removeStoredData("userToken");
                   Preferances.removeStoredData("userType");
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen()));
+                  Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
+                  const LoginScreen()), (Route<dynamic> route) => false);
                 }, icon:Icon(Icons.logout))
               ],
               backgroundColor: ColorUtils.blackColor,
@@ -44,102 +47,129 @@ class _DashboardActiveState extends State<DashboardActive> with SingleTickerProv
             body: Column(
               children:  [
                 Container(
-
+                padding: EdgeInsets.symmetric(horizontal: 12,vertical: 1),
                   color: ColorUtils.skyBlueColor,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          children: [
-                            Container(
-                              height: 10.h,
-                              width: 15.w,
-                              decoration: BoxDecoration(
-                                color: ColorUtils.blackColor,
-                                shape: BoxShape.circle,
-                              ),
-                              child: Icon(
-                                Icons.people_outline,
-                                color: ColorUtils.whiteColor,
-                                size: 6.h,
-
-                              ),
-                            ),
-                             Text("New",style: FontTextStyle.poppinsS18W4blackColor,)
-                          ],
-                        ),
-
+                      Column(
+                        children: [
+                          GestureDetector(
+                            onTap:(){
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=> const EnquireScreen()));
+                            },
+                            child: Image.asset("assets/images/new_icon.png",scale: 4,)
+                          ),
+                           SizedBox(
+                             height: 4,
+                           ),
+                           Text("New",style: FontTextStyle.poppinsS14W4blackColor,)
+                        ],
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          children: [
-                            Container(
-                              height: 10.h,
-                              width: 15.w,
-                              decoration: BoxDecoration(
-                                color: ColorUtils.whiteColor,
-                                shape: BoxShape.circle,
-                              ),
-                              child: Icon(
-                                Icons.list_alt_outlined,
-                                color: ColorUtils.blackColor,
-                                size: 6.h,
+                      Column(
+                        children: [
 
+                          Stack(
+                            children: [
+                              GestureDetector(
+                                  onTap:(){
+                                    Navigator.push(context, MaterialPageRoute(builder: (context)=> const EnquireScreen()));
+                                  },
+                                  child: Image.asset("assets/images/active_icon.png",scale: 4,)
                               ),
-                            ),
-                            Text("Active",style: FontTextStyle.poppinsS18W4blackColor,)
-                          ],
-                        ),
+                              Positioned.fill(child: Align(alignment: Alignment.topRight,
+                                child:Container(
+                                decoration: BoxDecoration(
+                                  color: ColorUtils.whiteColor,
+                                  shape: BoxShape.circle,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black.withOpacity(0.2),
+                                      blurRadius: 1.0,
+                                      spreadRadius: 0.5,
 
+                                    )
+                                  ]
+                                ),
+                                 child: Padding(
+                                 padding: const EdgeInsets.all(8.0),
+                                 child: Text("2",style: FontTextStyle.poppinsS14W4blackColor,),
+                               ),
+                              ),))
+                            ],
+                          ),
+                          Text("Active",style: FontTextStyle.poppinsS14W4blackColor,)
+                        ],
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          children: [
-                            Container(
-                              height: 10.h,
-                              width: 15.w,
-                              decoration: BoxDecoration(
-                                color: ColorUtils.whiteColor,
-                                shape: BoxShape.circle,
+                      Column(
+                        children: [
+                          Stack(
+                            children: [
+                              GestureDetector(
+                                  onTap:(){
+                                    Navigator.push(context, MaterialPageRoute(builder: (context)=> const EnquireScreen()));
+                                  },
+                                  child: Image.asset("assets/images/cancel_icon.png",scale: 4,)
                               ),
-                              child: Icon(
-                                Icons.cancel,
-                                color: ColorUtils.blackColor,
-                                size: 6.h,
+                              Positioned.fill(child: Align(alignment: Alignment.topRight,
+                                child:Container(
 
-                              ),
-                            ),
-                            Text("Cancel",style: FontTextStyle.poppinsS18W4blackColor,)
-                          ],
-                        ),
+                                  decoration: BoxDecoration(
+                                      color: ColorUtils.whiteColor,
+                                      shape: BoxShape.circle,
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black.withOpacity(0.2),
+                                          blurRadius: 1.0,
+                                          spreadRadius: 0.5,
 
+                                        )
+                                      ]
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text("2",style: FontTextStyle.poppinsS14W4blackColor,),
+                                  ),
+                                ),))
+                            ],
+                          ),
+                          Text("Cancel",style: FontTextStyle.poppinsS14W4blackColor,)
+                        ],
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          children: [
-                            Container(
-                              height: 10.h,
-                              width: 15.w,
-                              decoration: BoxDecoration(
-                                color: ColorUtils.whiteColor,
-                                shape: BoxShape.circle,
+                      Column(
+                        children: [
+                          Stack(
+                            children: [
+                              GestureDetector(
+                                  onTap:(){
+                                    Navigator.push(context, MaterialPageRoute(builder: (context)=> const EnquireScreen()));
+                                  },
+                                  child: Image.asset("assets/images/complete_icon.png",scale: 4,)
                               ),
-                              child: Icon(
-                                Icons.done,
-                                color: ColorUtils.blackColor,
-                                size: 6.h,
+                              Positioned.fill(child: Align(alignment: Alignment.topRight,
+                                child:Container(
 
-                              ),
-                            ),
-                            Text("Complete",style: FontTextStyle.poppinsS18W4blackColor,)
-                          ],
-                        ),
+                                  decoration: BoxDecoration(
+                                      color: ColorUtils.whiteColor,
+                                      shape: BoxShape.circle,
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black.withOpacity(0.2),
+                                          blurRadius: 1.0,
+                                          spreadRadius: 0.5,
 
+                                        )
+                                      ]
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text("2",style: FontTextStyle.poppinsS14W4blackColor,),
+                                  ),
+                                ),))
+                            ],
+                          ),
+                          Text("Complete",style: FontTextStyle.poppinsS14W4blackColor,)
+                        ],
                       ),
 
 

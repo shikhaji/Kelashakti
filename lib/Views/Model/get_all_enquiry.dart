@@ -51,6 +51,14 @@ class GetAllActiveData {
   bool? isSelected1;
   bool? isSelected2;
   bool? isSelected3;
+  bool? isOffice0;
+  bool? isOffice1;
+  bool? isOffice2;
+  bool? isFactory0;
+  bool? isFactory1;
+  bool? isFactory2;
+
+
 
 
 
@@ -62,6 +70,12 @@ class GetAllActiveData {
         this.isSelected1,
         this.isSelected2,
         this.isSelected3,
+        this.isOffice0,
+        this.isOffice1,
+        this.isOffice2,
+        this.isFactory0,
+        this.isFactory1,
+        this.isFactory2,
         this.cUSPHONE,
         this.cUSADDRESS,
         this.lEADSTATUS,

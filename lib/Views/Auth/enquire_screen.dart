@@ -33,8 +33,6 @@ class _EnquireScreenState extends State<EnquireScreen> {
 
 
 
-  String initialValue = "Yashil";
-  var refer = ["Yashil","Ayan Sharma", "Pankaj kumar"];
 
 
   //
@@ -68,63 +66,6 @@ class _EnquireScreenState extends State<EnquireScreen> {
     getAlluser(context: context);
   }
 
-  // String _baseUrl= "https://tinkubhaiya.provisioningtech.com/get_ajax/get_all_users/";
-  // String? refer;
-  // List<dynamic> dataRefer = [];
-
-  // void getData() async{
-  //   final response = await http.get( Uri.parse('https://tinkubhaiya.provisioningtech.com/get_ajax/login/'),);
-  //   var listData = jsonDecode(response.body);
-  //   setState(() {
-  //     dataRefer =listData;
-  //   });
-  // }
-  // @override
-  // void initState() {
-  //   super.initState();
-  //
-  // }
-
-  // void addEnquire() async{
-  //   try{
-  //     String? userid = await Preferances.getString("userId");
-  //     String? token = await Preferances.getString("userToken");
-  //     String? type = await Preferances.getString("userType");
-  //     Response response = await post(
-  //
-  //         Uri.parse('https://tinkubhaiya.provisioningtech.com/post_ajax/add_customer_enquiry/'),
-  //
-  //         headers: {
-  //           'Client-Service': 'frontend-client',
-  //           'Auth-Key' : 'simplerestapi',
-  //           "User-ID":userid.toString(),
-  //           "Authorization":token.toString(),
-  //           "type":type.toString(),
-  //         },
-  //         body: {
-  //           'name' : nameController.text,
-  //           'phone': phoneController.text,
-  //           'password': phoneController.text,
-  //           'referto': initialValue,
-  //         }
-  //     );
-  //     if(response.statusCode == 200){
-  //       var data = jsonDecode(response.body.toString());
-  //       Navigator.push(context, MaterialPageRoute(builder: (context) => BottomNavBar()));
-  //       //print(data);
-  //       print('login successfully');
-  //     }else{
-  //       print('Invalid Details');
-  //       print('$userid');
-  //       print('$token');
-  //       print('error${response.statusCode}');
-  //       print('error${response.body}');
-  //
-  //     }
-  //   }catch(e){
-  //     print(e.toString());
-  //   }
-  // }
   String? selectedRefer;
 
   @override
@@ -239,9 +180,9 @@ class _EnquireScreenState extends State<EnquireScreen> {
                                     "phone" : phoneController.text.trim(),
                                     "address":addressController.text.trim(),"referto":selectedRefer.toString()
                                   };
-ApiService().enquire(context,data: data).then((value){
-  Navigator.push(context, MaterialPageRoute(builder: (context) => BottomNavBar()));
-});
+                                  ApiService().enquire(context,data: data).then((value){
+                                    Navigator.push(context, MaterialPageRoute(builder: (context) => BottomNavBar()));
+                                  });
 
                                 },
                                 buttonText: "Click To Add",
