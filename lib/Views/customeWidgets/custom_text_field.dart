@@ -20,6 +20,7 @@ class CustomTextField extends StatefulWidget {
   final String? counterText;
   final bool? readonly;
   final int? maxLength;
+
   final FormFieldValidator<String>? validator;
   final ValueChanged<String?>? onChange;
   const CustomTextField({Key? key,this.fieldName,this.textInputAction,this.maxLength,this.keyboard,this.readonly,this.contentPadding,this.hintName,this.fieldController,this.maxLines,this.onChange,this.validator,this.prefixIcon,this.suffixIcon,this.obscureText, this.inputFormat, this.counterText}) : super(key: key);

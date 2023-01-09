@@ -40,18 +40,19 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        SizedBox(height: 7.h,),
+                        SizedBox(height: 10.h,),
+                        Image.asset("assets/images/logo.png",scale: 7,),
+                        SizedBox(height: 2.h,),
                         Container(
-                          child:Text("KelaShakti", style: FontTextStyle.poppinsS24W7PrimaryColor,),
+                          child: Text("Login Screen",style: FontTextStyle.poppinsS24W7PrimaryColor,),
                         ),
-
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 5.w,),
                           child: Form(
                             key: _formKey,
                             child: Column(
                               children: [
-                                SizedBox(height: 22.h,),
+                                SizedBox(height: 10.h,),
                                 CustomTextField(
                                   fieldController: phoneController,
                                   fieldName: "Phone Number",
@@ -61,9 +62,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   textInputAction:TextInputAction.done,
                                   validator: (str) {
                                     if (str!.isEmpty) {
-
                                       return '* Is Required';
-
                                     }
                                     return null;
                                   },
@@ -90,7 +89,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                   child: CustomButton(
                                     onTap: () {
                                       if(_formKey.currentState!.validate()) {
-
                                         ApiService().login(
                                             context, data: data()).then((
                                             value) =>

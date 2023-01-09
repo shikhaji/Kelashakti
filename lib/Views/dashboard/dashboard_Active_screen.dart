@@ -6,11 +6,16 @@ import 'package:kelashakti/Views/dashboard/Tabs/activeTab.dart';
 import 'package:kelashakti/Views/dashboard/Tabs/cancelTab.dart';
 import 'package:kelashakti/Views/dashboard/Tabs/completeTab.dart';
 import 'package:kelashakti/Views/dashboard/bottomNavbar.dart';
+import 'package:kelashakti/Views/dashboard/side_navbar.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../Utils/color_utils.dart';
 import '../Auth/enquire_screen.dart';
+import '../Model/get_all_cancel.dart';
+import '../Model/get_all_complete.dart';
+import '../Model/get_all_enquiry.dart';
 import '../Services/Shared_preferance.dart';
+import '../Services/api_service.dart';
 
 class DashboardActive extends StatefulWidget {
   const DashboardActive({Key? key}) : super(key: key);
@@ -20,6 +25,37 @@ class DashboardActive extends StatefulWidget {
 }
 
 class _DashboardActiveState extends State<DashboardActive> with SingleTickerProviderStateMixin{
+  List<GetAllActiveData> getAllActiveData = [];
+  List<GetAllCancelData> getAllCancelData =[];
+  List<GetAllCompleteData> getAllCompleteData = [];
+
+  @override
+  void initState() {
+    super.initState();
+    ApiService().active(context).then((value) {
+      if(value!.message == "ok"){
+        setState(() {
+          getAllActiveData = value.users!;
+        });
+      }
+    });
+
+    ApiService().cancel(context).then((value) {
+      if(value!.message == "ok"){
+        setState(() {
+          getAllCancelData = value.users!;
+        });
+      }
+    });
+
+    ApiService().complete(context).then((value) {
+      if(value!.message == "ok"){
+        setState(() {
+          getAllCompleteData = value.users!;
+        });
+      }
+    });
+  }
 
 
   @override
@@ -30,8 +66,8 @@ class _DashboardActiveState extends State<DashboardActive> with SingleTickerProv
         child: DefaultTabController(
           length: 3,
           child: Scaffold(
+              drawer: const SideNavBar(),
             appBar: AppBar(
-              leading: Icon(Icons.list),
               title: Text("KelaShakti"),
               actions: [
                 IconButton(onPressed: (){
@@ -47,10 +83,11 @@ class _DashboardActiveState extends State<DashboardActive> with SingleTickerProv
             body: Column(
               children:  [
                 Container(
-                padding: EdgeInsets.symmetric(horizontal: 12,vertical: 1),
+                padding: EdgeInsets.only(top: 8,bottom: 8,left: 1,right: 1),
                   color: ColorUtils.skyBlueColor,
+
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       Column(
                         children: [
@@ -66,37 +103,26 @@ class _DashboardActiveState extends State<DashboardActive> with SingleTickerProv
                            Text("New",style: FontTextStyle.poppinsS14W4blackColor,)
                         ],
                       ),
+
                       Column(
-                        children: [
-
+                        children:[
                           Stack(
+                            clipBehavior:   Clip.none,
                             children: [
-                              GestureDetector(
-                                  onTap:(){
-                                    Navigator.push(context, MaterialPageRoute(builder: (context)=> const EnquireScreen()));
-                                  },
-                                  child: Image.asset("assets/images/active_icon.png",scale: 4,)
+                              Image.asset("assets/images/active_icon.png",scale: 4,),
+                              Positioned(
+                                right: -8,
+                                child: CircleAvatar(
+                                  radius: 10.5,
+                                  backgroundColor: Colors.black,
+                                  foregroundColor: Colors.black,
+                                  child: Text('${getAllActiveData.length}',style: FontTextStyle.poppinsS14W4WhiteColor),
+                                ), //CircularAvatar
                               ),
-                              Positioned.fill(child: Align(alignment: Alignment.topRight,
-                                child:Container(
-                                decoration: BoxDecoration(
-                                  color: ColorUtils.whiteColor,
-                                  shape: BoxShape.circle,
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.black.withOpacity(0.2),
-                                      blurRadius: 1.0,
-                                      spreadRadius: 0.5,
-
-                                    )
-                                  ]
-                                ),
-                                 child: Padding(
-                                 padding: const EdgeInsets.all(8.0),
-                                 child: Text("2",style: FontTextStyle.poppinsS14W4blackColor,),
-                               ),
-                              ),))
                             ],
+                          ),
+                          SizedBox(
+                            height: 4,
                           ),
                           Text("Active",style: FontTextStyle.poppinsS14W4blackColor,)
                         ],
@@ -104,34 +130,23 @@ class _DashboardActiveState extends State<DashboardActive> with SingleTickerProv
                       Column(
                         children: [
                           Stack(
+                            clipBehavior: Clip.none,
                             children: [
-                              GestureDetector(
-                                  onTap:(){
-                                    Navigator.push(context, MaterialPageRoute(builder: (context)=> const EnquireScreen()));
-                                  },
-                                  child: Image.asset("assets/images/cancel_icon.png",scale: 4,)
+                              Image.asset("assets/images/cancel_icon.png",scale: 4,),
+
+                              Positioned(
+                                right: -8,
+                                child: CircleAvatar(
+                                  radius: 10.5,
+                                  backgroundColor: Colors.black,
+                                  foregroundColor: Colors.black,
+                                  child: Text('${getAllCancelData.length}',style: FontTextStyle.poppinsS14W4WhiteColor),
+                                ), //CircularAvatar
                               ),
-                              Positioned.fill(child: Align(alignment: Alignment.topRight,
-                                child:Container(
-
-                                  decoration: BoxDecoration(
-                                      color: ColorUtils.whiteColor,
-                                      shape: BoxShape.circle,
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.black.withOpacity(0.2),
-                                          blurRadius: 1.0,
-                                          spreadRadius: 0.5,
-
-                                        )
-                                      ]
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text("2",style: FontTextStyle.poppinsS14W4blackColor,),
-                                  ),
-                                ),))
                             ],
+                          ),
+                          SizedBox(
+                            height: 4,
                           ),
                           Text("Cancel",style: FontTextStyle.poppinsS14W4blackColor,)
                         ],
@@ -139,34 +154,26 @@ class _DashboardActiveState extends State<DashboardActive> with SingleTickerProv
                       Column(
                         children: [
                           Stack(
+
+
+
+                            clipBehavior: Clip.none,
+
                             children: [
-                              GestureDetector(
-                                  onTap:(){
-                                    Navigator.push(context, MaterialPageRoute(builder: (context)=> const EnquireScreen()));
-                                  },
-                                  child: Image.asset("assets/images/complete_icon.png",scale: 4,)
+                              Image.asset("assets/images/complete_icon.png",scale: 4,),
+                              Positioned(
+                                right: -8,
+                                child: CircleAvatar(
+                                  radius: 10.5,
+                                  backgroundColor: Colors.black,
+                                  foregroundColor: Colors.black,
+                                  child: Text('${getAllCompleteData.length}',style: FontTextStyle.poppinsS14W4WhiteColor),
+                                ), //CircularAvatar
                               ),
-                              Positioned.fill(child: Align(alignment: Alignment.topRight,
-                                child:Container(
-
-                                  decoration: BoxDecoration(
-                                      color: ColorUtils.whiteColor,
-                                      shape: BoxShape.circle,
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.black.withOpacity(0.2),
-                                          blurRadius: 1.0,
-                                          spreadRadius: 0.5,
-
-                                        )
-                                      ]
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text("2",style: FontTextStyle.poppinsS14W4blackColor,),
-                                  ),
-                                ),))
                             ],
+                          ),
+                          SizedBox(
+                            height: 4,
                           ),
                           Text("Complete",style: FontTextStyle.poppinsS14W4blackColor,)
                         ],

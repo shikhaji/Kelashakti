@@ -40,7 +40,7 @@ class _CustomButtonState extends State<CustomButton> {
       child: Container(
         decoration: BoxDecoration(
             border: Border.all(
-                color: widget.borderColor ?? ColorUtils.primaryColor,width: 0.75.w),
+                color: widget.borderColor ?? ColorUtils.primaryColor,width: 0.5.w),
             color: widget.btnColor ?? ColorUtils.primaryColor,
             borderRadius: const BorderRadius.all(Radius.circular(50))),
         height: widget.height ?? 6.h,

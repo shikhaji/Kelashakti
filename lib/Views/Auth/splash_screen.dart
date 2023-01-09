@@ -42,7 +42,7 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Container(
        child: Scaffold(
-            body: Center(child: Text("KelaShakti",style: FontTextStyle.poppinsS24W7PrimaryColor,)),
+            body: Center(child:Image.asset("assets/images/logo.png",scale: 5,)),
         )
     );
   }

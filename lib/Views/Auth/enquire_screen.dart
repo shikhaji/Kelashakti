@@ -87,18 +87,19 @@ class _EnquireScreenState extends State<EnquireScreen> {
                         SizedBox(height: 7.h,),
                         Column(
                           children: [
-                          Text("Enquire", style: FontTextStyle.poppinsS24W7PrimaryColor,),
+                            Image.asset("assets/images/logo.png",scale: 7,),
+                            SizedBox(height: 2.h,),
+                          Text("Enquire Screen", style: FontTextStyle.poppinsS24W7PrimaryColor,),
                             SizedBox(height: 2.h,),
                           Text("Please Record Enquire Here", style: FontTextStyle.poppinsS18W4blackColor,),
                           ]
 
                         ),
-
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 5.w,),
                           child: Column(
                             children: [
-                              SizedBox(height: 15.h,),
+                              SizedBox(height: 8.h,),
                               CustomTextField(
                                 fieldController: phoneController,
                                 fieldName: "Phone Number",
@@ -158,9 +159,9 @@ class _EnquireScreenState extends State<EnquireScreen> {
                                 padding:
                                 EdgeInsets.only(left: 4.w, right: 3.w, bottom: 1.w),
                                 decoration: BoxDecoration(
-                                  border: Border.all(color: ColorUtils.lightGreyColor),
+                                  border: Border.all(color: ColorUtils.primaryColor),
                                   color: ColorUtils.whiteColor,
-                                  borderRadius: BorderRadius.circular(50),
+                                  borderRadius: BorderRadius.circular(15),
                                 ),
                                 child: dropdowncategorybutton(),
                                 ),
@@ -168,13 +169,7 @@ class _EnquireScreenState extends State<EnquireScreen> {
                               SizedBox(height: 2.h,),
                               CustomButton(
                                 onTap: () {
-                                  //Navigator.push(context, MaterialPageRoute(builder: (context) =>BottomNavBar()));
-                                  print("name:= ${nameController.text.trim()}");
-                                  print("phone:= ${phoneController.text.trim()}");
-                                  print("name:= ${addressController.text.trim()}");
-                                  // FormData data() {
-                                  //   return FormData.fromMap({"name": nameController.text.trim(),"phone" : phoneController.text.trim(),"address":addressController.text.trim(),"referto":selectedRefer.toString()});
-                                  // }
+
                                   Map<String,dynamic> data = {
                                     "name": nameController.text.trim(),
                                     "phone" : phoneController.text.trim(),
@@ -189,7 +184,7 @@ class _EnquireScreenState extends State<EnquireScreen> {
                                 height: 5.h,
                                 textStyle: FontTextStyle.poppinsS16W7WhiteColor,
                               ),
-                              SizedBox(height: 18.h,),
+                              SizedBox(height: 5.h,),
                               Text("We Need Permission For The Service You Use", style: FontTextStyle.poppinsS14W4GreyColor,),
                               SizedBox(height: 0.5.h,),
                           Text("Learn More", style: FontTextStyle.poppinsS16W4blackColor)
@@ -219,7 +214,7 @@ if(getAllUser != null && getAllUser?.users != null){
             Text(getAllUser!.users![i].bRANCHNAME!),
           ],
         ),
-        value: getAllUser!.users![i].bRANCHNAME!.toString(),
+        value: getAllUser!.users![i].bRANCHID!.toString(),
       );
 
       dropdownList.add(item);

@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 class ColorUtils{
 
   static Color appBgColor = const Color(0xffaabeda);
-  static Color primaryColor = const Color(0xff4686FF);
+  static Color primaryColor = const Color(0xff242526);
   static Color skyColor = const Color(0xffd5e4ff);
   static Color whiteColor = Colors.white;
   static Color blackColor = const Color(0xff404040);
@@ -14,7 +14,7 @@ class ColorUtils{
   static Color inputBoxColor = const Color(0xffffffff);
   static Color darkGreyColor = const Color(0xffABB0B8);
   static Color grey = const Color(0xffA2AAAD);
-  static Color skyBlueColor = const Color(0xffebf7ff);
+  static Color skyBlueColor = const Color(0xffEBECF0);
   static Color pinkColor = const Color(0xfffc5774);
   static Color yellowColor = const Color(0xffffd464);
   static Color redColor = const Color(0xFFB71C1C);

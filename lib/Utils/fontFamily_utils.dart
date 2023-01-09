@@ -70,6 +70,10 @@ class FontTextStyle {
   static TextStyle poppinsS14W4PrimaryColor =
   poppinsS24W7PrimaryColor.copyWith(fontSize: 10.sp,fontWeight: FontWeightClass.medium);
 
+  static TextStyle poppinsS16W4PrimaryColor =
+  poppinsS24W7PrimaryColor.copyWith(fontSize: 14.sp,fontWeight: FontWeightClass.medium);
+
+
   static TextStyle poppinsS14W4GreyColor =
   poppinsS24W7PrimaryColor.copyWith( color:ColorUtils.labelColor, fontSize: 10.sp,fontWeight: FontWeightClass.regular);
 

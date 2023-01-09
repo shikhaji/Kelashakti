@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:kelashakti/Views/Model/get_all_complete.dart';
 import 'package:kelashakti/Views/Model/login_model.dart';
+import 'package:kelashakti/Views/Model/search_model.dart';
 import 'package:kelashakti/Views/Services/Shared_preferance.dart';
 import 'package:kelashakti/Views/Services/api_endpoint.dart';
 import '../../Utils/loader.dart';
@@ -89,10 +90,13 @@ class ApiService {
         body: data,);
       if (response.statusCode == 200) {
         debugPrint('add account  ----- > ${response.body}');
-        // CommonModel responseData =
-        // CommonModel.fromJson(response.body);
-        //return responseData;
+
         Loader.hideLoader();
+        Fluttertoast.showToast(
+          msg: "Successfully Added...",
+          backgroundColor: Colors.grey,
+        );
+
       } else {
         Loader.hideLoader();
         throw Exception(response.body);
@@ -139,31 +143,16 @@ class ApiService {
       var url = "https://tinkubhaiya.provisioningtech.com/post_ajax/add_customer_enquiry/";
       var response = await http.post(
         Uri.parse(url),
-        headers: { "Client-Service": 'frontend-client',
-          "Auth-Key": 'simplerestapi',
-          "User-ID": "1",
-          "Authorization": token.toString(),
-          "type": "1",},
+
         body: data,
 
       );
-      // response = await dio.post(ApiEndPoints.enquireApi,
-      //     options: Options(headers: {
-      //       "Client-Service":'frontend-client',
-      //       "Auth-Key":'simplerestapi',
-      //       "User-ID":"1",
-      //       "Authorization":token,
-      //       "type":"1",
-      //     }),
-      //     data: data);
+
       print("4");
       if (response.statusCode == 200) {
         Loader.hideLoader();
         print("5");
         debugPrint('add account  ----- > ${response.body}');
-        // CommonModel responseData =
-        // CommonModel.fromJson(response.body);
-        // return responseData;
       } else {
         print("6");
         Loader.hideLoader();
@@ -185,8 +174,13 @@ class ApiService {
       String? userid = await Preferances.getString("userId");
       String? type = await Preferances.getString("userType");
       var formData = FormData.fromMap({
-        'id': userid, 'type': type, 'status': 0,
+        'id': userid?.replaceAll('"', '').replaceAll('"', '').toString(),
+       'type': type?.replaceAll('"', '').replaceAll('"', '').toString(),
+        'status': 0,
+
       });
+      print(userid?.replaceAll('"', '').replaceAll('"', '').toString(),);
+      print(type?.replaceAll('"', '').replaceAll('"', '').toString(),);
       Response response;
       response = await dio.post(ApiEndPoints.getAllApi,
         data: formData,
@@ -207,14 +201,16 @@ class ApiService {
     }
   }
 
-///////////////////////////////// complete tab //////////////////////////////
+
 
   Future<GetAllComplete?> complete(BuildContext context) async {
     try {
       String? userid = await Preferances.getString("userId");
       String? type = await Preferances.getString("userType");
       var formData = FormData.fromMap({
-        'id': userid, 'type': type, 'status': 2,
+        'id': userid?.replaceAll('"', '').replaceAll('"', '').toString(),
+        'type': type?.replaceAll('"', '').replaceAll('"', '').toString(),
+        'status': 2,
       });
       Response response;
       response = await dio.post(ApiEndPoints.getAllApi,
@@ -245,7 +241,9 @@ class ApiService {
       String? userid = await Preferances.getString("userId");
       String? type = await Preferances.getString("userType");
       var formData = FormData.fromMap({
-        'id': userid, 'type': type, 'status': 3,
+        'id': userid?.replaceAll('"', '').replaceAll('"', '').toString(),
+        'type': type?.replaceAll('"', '').replaceAll('"', '').toString(),
+        'status': 3,
       });
       Response response;
       response = await dio.post(ApiEndPoints.getAllApi,
@@ -272,43 +270,6 @@ class ApiService {
   }
 
 
-
-/////////////////////////////////  Update Feild //////////////////////////////
-
-  // Future updateField(BuildContext context, {
-  //   Map? data,
-  // }) async {
-  //   try {
-  //     String? userid = await Preferances.getString("userId");
-  //     String? token = await Preferances.getString("userToken");
-  //     String? type = await Preferances.getString("userType");
-  //
-  //     var url ="https://tinkubhaiya.provisioningtech.com/post_ajax/update_field_process/";
-  //     var response = await http.post(
-  //       Uri.parse(url),
-  //       headers:{  "Client-Service":'frontend-client',
-  //         "Auth-Key":'simplerestapi',
-  //         "User-ID":userid.toString(),
-  //         "Authorization":token.toString(),
-  //         "type":type.toString(),} ,
-  //       body: data,);
-  //     if (response.statusCode == 200) {
-  //       debugPrint('add account  ----- > ${response.body}');
-  //       print("updated");
-  //       // CommonModel responseData =
-  //       // CommonModel.fromJson(response.body);
-  //       //return responseData;
-  //     } else {
-  //       print("not updated");
-  //       throw Exception(response.body);
-  //     }
-  //   } on DioError catch (e) {
-  //     print("not d updated");
-  //     debugPrint('Dio E  $e');
-  //   }
-  //
-  //
-  // }
 
   Future updateField(BuildContext context, {
     Map? data,
@@ -393,15 +354,10 @@ class ApiService {
   Future updateFactory(BuildContext context, {
     Map? data,
   }) async {
-    print("1");
     try {
       String? userid = await Preferances.getString("userId");
       String? token = await Preferances.getString("userToken");
       String? type = await Preferances.getString("userType");
-      print("2");
-
-      // Response response;
-      print("3");
       var url = "https://tinkubhaiya.provisioningtech.com/post_ajax/update_factory_process/";
       var response = await http.post(
         Uri.parse(url),
@@ -413,20 +369,14 @@ class ApiService {
         body: data,
 
       );
-      print("4");
+
       if (response.statusCode == 200) {
-        print("5");
         debugPrint('add account  ----- > ${response.body}');
-        // CommonModel responseData =
-        // CommonModel.fromJson(response.body);
-        // return responseData;
       } else {
-        print("6");
         throw Exception(response.body);
       }
     } on DioError catch (e) {
-      print("7");
-      debugPrint('Dio E  $e');
+        debugPrint('Dio E  $e');
     }
   }
 
@@ -455,25 +405,51 @@ class ApiService {
         body: data,
 
       );
-      print("4");
+
       if (response.statusCode == 200) {
-        print("5");
+
         debugPrint('add account  ----- > ${response.body}');
         Loader.hideLoader();
-        // CommonModel responseData =
-        // CommonModel.fromJson(response.body);
-        // return responseData;
+
       } else {
-        print("6");
         Loader.hideLoader();
         throw Exception(response.body);
 
       }
     } on DioError catch (e) {
-      print("7");
       debugPrint('Dio E  $e');
       Loader.hideLoader();
     }
+  }
+
+  Future<SearchModel?> search(BuildContext context, {
+    FormData? data,
+  }) async {
+    try {
+      Loader.showLoader();
+      Response response;
+      response = await dio.post("https://tinkubhaiya.provisioningtech.com/get_ajax/get_all_enquiry_by_date/",
+        data: data,
+
+      );
+
+
+      if (response.statusCode == 200) {
+        SearchModel searchData = SearchModel.fromJson(response.data);
+        print(response.data);
+        Loader.hideLoader();
+        return searchData;
+
+      } else {
+        Loader.hideLoader();
+        throw Exception(response.data);
+      }
+    } on DioError catch (e) {
+
+      debugPrint('Dio E  $e');
+      Loader.hideLoader();
+    }
+    return null;
   }
 
 }

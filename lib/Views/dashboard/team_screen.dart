@@ -26,44 +26,7 @@ class _TeamScreenState extends State<TeamScreen> {
   TextEditingController nameController= TextEditingController();
   TextEditingController phoneController= TextEditingController();
   TextEditingController passwordController= TextEditingController();
-  // void add() async {
-  //     try{
-  //       String? userid = await Preferances.getString("userId");
-  //       String? token = await Preferances.getString("userToken");
-  //       String? type = await Preferances.getString("userType");
-  //         Response response = await post(
-  //
-  //           Uri.parse('https://tinkubhaiya.provisioningtech.com/post_ajax/add_account/'),
-  //
-  //         headers: {
-  //           'Client-Service': 'frontend-client',
-  //           'Auth-Key' : 'simplerestapi',
-  //           "User-ID":userid.toString(),
-  //           "Authorization":token.toString(),
-  //           "type":type.toString(),
-  //         },
-  //         body: {
-  //             'name' : nameController.text,
-  //             'phone': phoneController.text,
-  //           'password': phoneController.text,
-  //         }
-  //       );
-  //       if(response.statusCode == 200){
-  //         var data = jsonDecode(response.body.toString());
-  //         Navigator.push(context, MaterialPageRoute(builder: (context) => BottomNavBar()));
-  //         print(data);
-  //         print('login successfully');
-  //       }else{
-  //         print('Invalid Details');
-  //         print('error${response.statusCode}');
-  //         print('error${response.body}');
-  //
-  //       }
-  //     }catch(e){
-  //       print(e.toString());
-  //     }
-  //   }
-
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -87,13 +50,15 @@ class _TeamScreenState extends State<TeamScreen> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         SizedBox(height: 7.h,),
-                        Text("Team", style: FontTextStyle.poppinsS24W7PrimaryColor,),
+                        Image.asset("assets/images/logo.png",scale: 7,),
+                        SizedBox(height: 2.h,),
+                        Text("Team Screen", style: FontTextStyle.poppinsS24W7PrimaryColor,),
 
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 5.w,),
                           child: Column(
                             children: [
-                              SizedBox(height: 18.h,),
+                              SizedBox(height: 10.h,),
                               CustomTextField(
                                 fieldController: nameController,
 
@@ -149,54 +114,18 @@ class _TeamScreenState extends State<TeamScreen> {
                               SizedBox(height: 2.h,),
                               CustomButton(
                                 onTap: () async {
-                                  // String? userid = await Preferances.getString("userId");
-                                  // String? token = await Preferances.getString("userToken");
-                                  // String? type = await Preferances.getString("userType");
-                                  // String? cookie = await Preferances.getString("cookie");
-                                  print("name:= ${nameController.text.trim()}");
-                                  print("phone:= ${phoneController.text.trim()}");
-                                  print("name:= ${passwordController.text.trim()}");
+
                                   Map<String,dynamic> data = {
                                     "name": nameController.text.trim(),"phone" : phoneController.text.trim(),"password":passwordController.text.trim()
                                   };
                                  ApiService().addAccount(context,data: data);
-                                  // print(token!.replaceAll('"', '').replaceAll('"', '').toString());
-                                  // print(cookie!.replaceAll('"', '').replaceAll('"', '').toString());
-                                  // print(type!.replaceAll('"', '').replaceAll('"', '').toString());
-                                  // print(userid!.replaceAll('"', '').replaceAll('"', '').toString());
-                                  // var headers = {
-                                  //   'Client-Service': 'frontend-client',
-                                  //   'Auth-Key': 'simplerestapi',
-                                  //   'User-ID': userid.replaceAll('"', '').replaceAll('"', '').toString(),
-                                  //   'Authorization':token.replaceAll('"', '').replaceAll('"', '').toString(),
-                                  //   'type': type.replaceAll('"', '').replaceAll('"', '').toString(),
-                                  //  'Cookie': cookie.replaceAll('"', '').replaceAll('"', '').toString(),
-                                  // };
-                                  // var request = http.MultipartRequest('POST', Uri.parse('https://tinkubhaiya.provisioningtech.com/post_ajax/add_account/'));
-                                  // request.fields.addAll({
-                                  //   'name': 'henu',
-                                  //   'phone': '8320591633',
-                                  //   'password': '123456'
-                                  // });
-                                  //
-                                  // request.headers.addAll(headers);
-                                  //
-                                  // http.StreamedResponse response = await request.send();
-                                  //
-                                  // if (response.statusCode == 200) {
-                                  //   print(await response.stream.bytesToString());
-                                  // }
-                                  // else {
-                                  //   print(response.reasonPhrase);
-                                  // }
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => BottomNavBar()));
                                 },
                                 buttonText: "Click To Add",
                                 height: 5.h,
                                 textStyle: FontTextStyle.poppinsS16W7WhiteColor,
                               ),
                               SizedBox(height: 1.5.h,),
-
-
 
                             ],
                           ),
