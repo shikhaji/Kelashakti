@@ -18,6 +18,8 @@ import '../customeWidgets/cutom_btn.dart';
 import '../dashboard/bottomNavbar.dart';
 import 'package:http/http.dart';
 
+import '../dashboard/side_navbar.dart';
+
 class EnquireScreen extends StatefulWidget {
   const EnquireScreen({Key? key}) : super(key: key);
 
@@ -38,7 +40,8 @@ class _EnquireScreenState extends State<EnquireScreen> {
   //
 
   GetAllUser? getAllUser;
-  String dropdowncategory = "";
+  String dropdowncategory = '';
+
   Future<void> getAlluser({
     required BuildContext context,
   }) async {
@@ -74,6 +77,11 @@ class _EnquireScreenState extends State<EnquireScreen> {
       color: ColorUtils.appBgColor,
       child: SafeArea(
         child: Scaffold(
+            drawer: const SideNavBar(),
+            appBar: AppBar(
+              title: const Text("KelaShakti"),
+              backgroundColor: ColorUtils.blackColor,
+            ),
             body: Container(
               height: double.infinity,
               color: ColorUtils.skyBlueColor,
@@ -184,10 +192,7 @@ class _EnquireScreenState extends State<EnquireScreen> {
                                 height: 5.h,
                                 textStyle: FontTextStyle.poppinsS16W7WhiteColor,
                               ),
-                              SizedBox(height: 5.h,),
-                              Text("We Need Permission For The Service You Use", style: FontTextStyle.poppinsS14W4GreyColor,),
-                              SizedBox(height: 0.5.h,),
-                          Text("Learn More", style: FontTextStyle.poppinsS16W4blackColor)
+
                             ],
                           ),
                         )
@@ -209,12 +214,12 @@ class _EnquireScreenState extends State<EnquireScreen> {
 if(getAllUser != null && getAllUser?.users != null){
     for (int i = 0; i < getAllUser!.users!.length; i++) {
       DropdownMenuItem<String> item = DropdownMenuItem<String>(
+        value: getAllUser!.users![i].bRANCHID!.toString(),
         child: Row(
           children: <Widget>[
             Text(getAllUser!.users![i].bRANCHNAME!),
           ],
         ),
-        value: getAllUser!.users![i].bRANCHID!.toString(),
       );
 
       dropdownList.add(item);
@@ -233,7 +238,7 @@ if(getAllUser != null && getAllUser?.users != null){
         value: dropdowncategory.isEmpty ? null: dropdowncategory,
         isExpanded: true,
         underline: Container(),
-        hint:  Text("${selectedRefer == "" ?'Select categories' : selectedRefer}"),
+        hint: Text(selectedRefer ?? 'Select Refer'),
         icon: const Icon(
           Icons.arrow_drop_down_outlined,
         ),

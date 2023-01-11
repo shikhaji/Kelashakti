@@ -14,6 +14,7 @@ import 'Tabs/old_screen.dart';
 class BottomNavBar extends StatefulWidget {
   const BottomNavBar({Key? key}) : super(key: key);
 
+
   @override
   State<BottomNavBar> createState() => _BottomNavBarState();
 }
@@ -29,8 +30,11 @@ class _BottomNavBarState extends State<BottomNavBar> {
     const OldScreen(),
   ];
 
+
+
   final PageStorageBucket bucket = PageStorageBucket() ;
   Widget currentScreen = const DashboardActive();
+
 
 
   @override

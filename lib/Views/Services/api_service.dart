@@ -10,6 +10,7 @@ import 'package:kelashakti/Views/Model/search_model.dart';
 import 'package:kelashakti/Views/Services/Shared_preferance.dart';
 import 'package:kelashakti/Views/Services/api_endpoint.dart';
 import '../../Utils/loader.dart';
+import '../Model/alert_model.dart';
 import '../Model/common_model.dart';
 import '../Model/get_all_cancel.dart';
 import '../Model/get_all_enquiry.dart';
@@ -450,6 +451,110 @@ class ApiService {
       Loader.hideLoader();
     }
     return null;
+  }
+
+  // Future<AlertModel?> alert(BuildContext context, ) async {
+  //   try {
+  //     Loader.showLoader();
+  //     String? userid = await Preferances.getString("userId");
+  //
+  //
+  //     var url = "https://tinkubhaiya.provisioningtech.com/get_ajax/get_alert_list/";
+  //     var response = await http.post(
+  //       Uri.parse(url),
+  //       body: {
+  //         'id': userid!.replaceAll('"', '').replaceAll('"', '').toString(),
+  //       },);
+  //     if (response.statusCode == 200) {
+  //       debugPrint('add account  ----- > ${response.body}');
+  //       AlertModel alertData = AlertModel.fromJson(response.body);
+  //
+  //      // print(userid!.replaceAll('"', '').replaceAll('"', '').toString());
+  //
+  //       Loader.hideLoader();
+  //
+  //
+  //     } else {
+  //       Loader.hideLoader();
+  //       throw Exception(response.body);
+  //
+  //     }
+  //   } on DioError catch (e) {
+  //     Loader.hideLoader();
+  //     debugPrint('Dio E  $e');
+  //   }
+  // }
+
+  Future<AlertModel?> alert(BuildContext context) async {
+    try {
+      String? userid = await Preferances.getString("userId");
+      Loader.showLoader();
+      Response response;
+
+      var formData = FormData.fromMap({
+        'id': userid?.replaceAll('"', '').replaceAll('"', '').toString(),
+
+      });
+      response = await dio.post("https://tinkubhaiya.provisioningtech.com/get_ajax/get_alert_list/",
+        data: formData,
+      );
+      if (response.statusCode == 200) {
+        AlertModel alertData = AlertModel.fromJson(response.data);
+        print(response.data);
+        Loader.hideLoader();
+        return alertData;
+
+      } else {
+        Loader.hideLoader();
+        throw Exception(response.data);
+      }
+    } on DioError catch (e) {
+
+      debugPrint('Dio E  $e');
+      Loader.hideLoader();
+    }
+    return null;
+  }
+
+  Future cancelData(BuildContext context, {
+    Map? data,
+  }) async {
+    try {
+      Loader.showLoader();
+      String? userid = await Preferances.getString("userId");
+      String? token = await Preferances.getString("userToken");
+      String? type = await Preferances.getString("userType");
+      String? cookie = await Preferances.getString("cookie");
+
+      var url = "https://tinkubhaiya.provisioningtech.com/post_ajax/cancell_lead/";
+      var response = await http.post(
+        Uri.parse(url),
+        headers: { "Client-Service": 'frontend-client',
+          "Auth-Key": 'simplerestapi',
+          'User-ID': userid!.replaceAll('"', '').replaceAll('"', '').toString(),
+          'Authorization':token!.replaceAll('"', '').replaceAll('"', '').toString(),
+          'type': type!.replaceAll('"', '').replaceAll('"', '').toString(),
+          'Cookie': cookie!.replaceAll('"', '').replaceAll('"', '').toString(),
+        },
+        body: data,);
+      if (response.statusCode == 200) {
+        debugPrint('add account  ----- > ${response.body}');
+
+        Loader.hideLoader();
+        Fluttertoast.showToast(
+          msg: "Data Cancel",
+          backgroundColor: Colors.grey,
+        );
+
+      } else {
+        Loader.hideLoader();
+        throw Exception(response.body);
+
+      }
+    } on DioError catch (e) {
+      Loader.hideLoader();
+      debugPrint('Dio E  $e');
+    }
   }
 
 }

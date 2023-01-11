@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:kelashakti/Views/Services/api_service.dart';
+import 'package:kelashakti/Views/dashboard/side_navbar.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../Utils/color_utils.dart';
@@ -34,8 +35,9 @@ class _TeamScreenState extends State<TeamScreen> {
       color: ColorUtils.appBgColor,
       child: SafeArea(
         child: Scaffold(
+            drawer: const SideNavBar(),
             appBar: AppBar(
-              leading: Icon(Icons.list),
+
               title: Text("KelaShakti"),
               backgroundColor: ColorUtils.blackColor,
             ),

@@ -7,6 +7,7 @@ import 'package:sizer/sizer.dart';
 import '../../../Utils/color_utils.dart';
 import '../../Model/get_all_enquiry.dart';
 import '../../Services/Shared_preferance.dart';
+import '../bottomNavbar.dart';
 
 class ActiveTab extends StatefulWidget {
   const ActiveTab({Key? key}) : super(key: key);
@@ -28,7 +29,6 @@ class _ActiveTabState extends State<ActiveTab> {
          getAllActiveData = value.users!;
        });
      }
-
     });
   }
 
@@ -81,6 +81,7 @@ class _ActiveTabState extends State<ActiveTab> {
                     ],
                   ),
                 ),tooltip: "name"),
+                DataColumn(label: SizedBox(  child: Text('Cancel')),tooltip: "name",),
 
               ],
               rows: List.generate(getAllActiveData.length, (index) {
@@ -1138,7 +1139,30 @@ class _ActiveTabState extends State<ActiveTab> {
                         ]
                     ),
                   ),
+                  DataCell(
+                     GestureDetector(
+                       onTap: () async{
+                         Map<String,dynamic> data = {
+                           "id": getAllActiveData[index].cUSID,
+                         };
+                         ApiService().cancelData(context,data: data);
+                         await ApiService().active(context).then((value) {
+                           if(value!.message == "ok"){
+                             setState(() {
+                               getAllActiveData = value.users!;
+                             });
+                           }
+                         });
+                         await Navigator.push(context, MaterialPageRoute(builder: (context) => BottomNavBar()));
+                       },
+                       child: Icon(
+                           Icons.cancel_outlined,
+                         color: ColorUtils.redColor,
+                         size: 35,
 
+                       ),
+                     ),
+                  ),
                 ]);
               }),
 

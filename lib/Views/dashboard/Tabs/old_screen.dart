@@ -11,6 +11,7 @@ import '../../../Utils/color_utils.dart';
 import '../../Model/search_model.dart';
 import '../../Services/Shared_preferance.dart';
 import '../../Services/api_service.dart';
+import '../side_navbar.dart';
 
 class OldScreen extends StatefulWidget {
   const OldScreen({Key? key}) : super(key: key);
@@ -35,8 +36,9 @@ class _OldScreenState extends State<OldScreen> {
       color: ColorUtils.appBgColor,
       child: SafeArea(
         child: Scaffold(
+            drawer: const SideNavBar(),
             appBar: AppBar(
-              leading: Icon(Icons.list),
+
               // default is 56
               title: Text("KelaShakti"),
 

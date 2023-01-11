@@ -66,18 +66,10 @@ class _DashboardActiveState extends State<DashboardActive> with SingleTickerProv
         child: DefaultTabController(
           length: 3,
           child: Scaffold(
-              drawer: const SideNavBar(),
+            drawer: const SideNavBar(),
             appBar: AppBar(
               title: Text("KelaShakti"),
-              actions: [
-                IconButton(onPressed: (){
-                  Preferances.removeStoredData("userId");
-                  Preferances.removeStoredData("userToken");
-                  Preferances.removeStoredData("userType");
-                  Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
-                  const LoginScreen()), (Route<dynamic> route) => false);
-                }, icon:Icon(Icons.logout))
-              ],
+            
               backgroundColor: ColorUtils.blackColor,
             ),
             body: Column(
@@ -93,11 +85,12 @@ class _DashboardActiveState extends State<DashboardActive> with SingleTickerProv
                         children: [
                           GestureDetector(
                             onTap:(){
+
                               Navigator.push(context, MaterialPageRoute(builder: (context)=> const EnquireScreen()));
                             },
                             child: Image.asset("assets/images/new_icon.png",scale: 4,)
                           ),
-                           SizedBox(
+                           const SizedBox(
                              height: 4,
                            ),
                            Text("New",style: FontTextStyle.poppinsS14W4blackColor,)
