@@ -51,7 +51,13 @@ class _AlertScreenState extends State<AlertScreen> {
                 child: Text("Alert screen",style: FontTextStyle.poppinsS18W4blackColor,)
               ),
 
-              SingleChildScrollView(
+              getAllAlertData.isEmpty ? Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: const [
+                  SizedBox(height: 100,),
+                  Center(child: Text("No data Found!!"),),
+                ],
+              )  : SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: SingleChildScrollView(
                   child: DataTable(

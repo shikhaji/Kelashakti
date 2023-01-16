@@ -34,7 +34,7 @@ class _CancelTabState extends State<CancelTab> {
   }
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return getAllCancelData.length == 0  ? Center(child: Text("NO found data!"),): Container(
         color:ColorUtils.skyBlueColor,
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,

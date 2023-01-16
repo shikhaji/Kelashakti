@@ -34,9 +34,12 @@ class _DashboardActiveState extends State<DashboardActive> with SingleTickerProv
     super.initState();
     ApiService().active(context).then((value) {
       if(value!.message == "ok"){
-        setState(() {
-          getAllActiveData = value.users!;
-        });
+        if( value.users!=null){
+          setState(() {
+            getAllActiveData = value.users!;
+          });
+        }
+
       }
     });
 
@@ -66,6 +69,7 @@ class _DashboardActiveState extends State<DashboardActive> with SingleTickerProv
         child: DefaultTabController(
           length: 3,
           child: Scaffold(
+            resizeToAvoidBottomInset: false,
             drawer: const SideNavBar(),
             appBar: AppBar(
               title: Text("KelaShakti"),
@@ -86,7 +90,7 @@ class _DashboardActiveState extends State<DashboardActive> with SingleTickerProv
                           GestureDetector(
                             onTap:(){
 
-                              Navigator.push(context, MaterialPageRoute(builder: (context)=> const EnquireScreen()));
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=> const BottomNavBar(2)));
                             },
                             child: Image.asset("assets/images/new_icon.png",scale: 4,)
                           ),
@@ -147,11 +151,7 @@ class _DashboardActiveState extends State<DashboardActive> with SingleTickerProv
                       Column(
                         children: [
                           Stack(
-
-
-
                             clipBehavior: Clip.none,
-
                             children: [
                               Image.asset("assets/images/complete_icon.png",scale: 4,),
                               Positioned(

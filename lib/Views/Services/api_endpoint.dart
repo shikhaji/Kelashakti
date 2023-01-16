@@ -7,8 +7,4 @@ class ApiEndPoints{
   static const String enquireApi ="${baseUrl}${postUrl}add_customer_enquiry/";
   static const String referListApi ="${baseUrl}${getUrl}get_all_users/";
   static const String getAllApi ="${baseUrl}${getUrl}get_all_enquiry/";
-
-
-
-
 }

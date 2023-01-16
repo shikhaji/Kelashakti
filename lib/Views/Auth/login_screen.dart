@@ -6,8 +6,11 @@ import 'package:kelashakti/Views/Services/api_service.dart';
 import 'package:kelashakti/Views/dashboard/bottomNavbar.dart';
 import 'package:sizer/sizer.dart';
 import '../../Utils/color_utils.dart';
+import '../Services/Shared_preferance.dart';
 import '../customeWidgets/custom_text_field.dart';
 import '../customeWidgets/cutom_btn.dart';
+import '../dashboard/bottomNavBar2.dart';
+import 'forgotPassword_screen.dart';
 
 
 class LoginScreen extends StatefulWidget {
@@ -21,6 +24,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   TextEditingController phoneController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  bool obscurePassword=true;
   final _formKey = GlobalKey<FormState>();
 
 
@@ -54,21 +58,35 @@ class _LoginScreenState extends State<LoginScreen> {
                               children: [
                                 SizedBox(height: 10.h,),
                                 CustomTextField(
+                                  prefixIcon: Icon(Icons.phone),
                                   fieldController: phoneController,
                                   fieldName: "Phone Number",
                                   hintName: " Phone Number",
-                                  //keyboard: TextInputType.phone,
+                                  keyboard: TextInputType.phone,
                                   maxLines: 1,
                                   textInputAction:TextInputAction.done,
                                   validator: (str) {
                                     if (str!.isEmpty) {
                                       return '* Is Required';
                                     }
+                                    // else if(str.length != 10){
+                                    //   return '* Phone number must be of 10 digit';
+                                    // }
                                     return null;
                                   },
                                 ),
                                 SizedBox(height: 2.h,),
                                 CustomTextField(
+                                  suffixIcon: GestureDetector
+                                    (onTap: (){
+                                    setState(() {
+                                      obscurePassword=! obscurePassword;
+                                    });
+
+                                  },
+                                      child: obscurePassword? Icon(Icons.visibility_off) : Icon(Icons.visibility)),
+                                  obscureText: obscurePassword,
+                                  prefixIcon: Icon(Icons.password),
                                   fieldController: passwordController,
                                   fieldName: "Password",
                                   hintName: " Password",
@@ -77,9 +95,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   textInputAction:TextInputAction.done,
                                   validator: (str) {
                                     if (str!.isEmpty) {
-
                                       return '* Is Required';
-
                                     }
                                     return null;
                                   },
@@ -87,17 +103,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                 SizedBox(height: 2.h,),
                                 GestureDetector(
                                   child: CustomButton(
-                                    onTap: () {
+                                    onTap: () async{
+                                      String? type = await Preferances.getString("userType");
                                       if(_formKey.currentState!.validate()) {
                                         ApiService().login(
-                                            context, data: data()).then((
-                                            value) =>
-                                        {
-                                          if(value?.message == "ok"){
-                                            Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
-                                            const BottomNavBar()), (Route<dynamic> route) => false)
-                                          }
-                                        });
+                                            context, data: data());
                                       }
                                     },
                                     buttonText: "Log in",
@@ -106,7 +116,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                   ),
                                 ),
                                 SizedBox(height: 1.5.h,),
-                                Text("Forgot Password?", style: FontTextStyle.poppinsS14W4blackColor,),
+                                GestureDetector(
+                                  onTap: (){
+                                    Navigator.push(context, MaterialPageRoute(builder: (context) => const Forgot()));
+                                  },
+                                    child: Text("Forgot Password?", style: FontTextStyle.poppinsS14W4blackColor,)),
 
 // IconButton(onPressed: (){}, icon: Icon(Icons.circle,size: 10,))
                               ],

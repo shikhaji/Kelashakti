@@ -1,17 +1,15 @@
-class GetAllCancel {
+class VisitedModel {
   int? status;
-  String? message;
-  List<GetAllCancelData>? users;
+  List<VisitedData>? message;
 
-  GetAllCancel({this.status, this.message, this.users});
+  VisitedModel({this.status, this.message});
 
-  GetAllCancel.fromJson(Map<String, dynamic> json) {
+  VisitedModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
-    message = json['message'];
-    if (json['users'] != null) {
-      users = <GetAllCancelData>[];
-      json['users'].forEach((v) {
-        users!.add(new GetAllCancelData.fromJson(v));
+    if (json['message'] != null) {
+      message = <VisitedData>[];
+      json['message'].forEach((v) {
+        message!.add(new VisitedData.fromJson(v));
       });
     }
   }
@@ -19,15 +17,14 @@ class GetAllCancel {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['status'] = this.status;
-    data['message'] = this.message;
-    if (this.users != null) {
-      data['users'] = this.users!.map((v) => v.toJson()).toList();
+    if (this.message != null) {
+      data['message'] = this.message!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
-class GetAllCancelData {
+class VisitedData {
   String? cUSID;
   String? cUSTT;
   String? cUSNAME;
@@ -40,16 +37,8 @@ class GetAllCancelData {
   String? rEFERTO;
   String? cUSLASTCOMMENT;
   String? cUSDATE;
-  String? wPSID;
-  String? wPSTT;
-  String? wPSCUSID;
-  String? wPSFIELDPROCESS;
-  String? wPSOFFICEPROCESS;
-  String? wPSFACTORYPROCESS;
-  String? wPSLOGINID;
-  String? wPSLASTCOMMENT;
 
-  GetAllCancelData(
+  VisitedData(
       {this.cUSID,
         this.cUSTT,
         this.cUSNAME,
@@ -61,17 +50,9 @@ class GetAllCancelData {
         this.fACTORYPROCESS,
         this.rEFERTO,
         this.cUSLASTCOMMENT,
-        this.cUSDATE,
-        this.wPSID,
-        this.wPSTT,
-        this.wPSCUSID,
-        this.wPSFIELDPROCESS,
-        this.wPSOFFICEPROCESS,
-        this.wPSFACTORYPROCESS,
-        this.wPSLOGINID,
-        this.wPSLASTCOMMENT});
+        this.cUSDATE});
 
-  GetAllCancelData.fromJson(Map<String, dynamic> json) {
+  VisitedData.fromJson(Map<String, dynamic> json) {
     cUSID = json['CUS_ID'];
     cUSTT = json['CUS_TT'];
     cUSNAME = json['CUS_NAME'];
@@ -84,14 +65,6 @@ class GetAllCancelData {
     rEFERTO = json['REFER_TO'];
     cUSLASTCOMMENT = json['CUS_LAST_COMMENT'];
     cUSDATE = json['CUS_DATE'];
-    wPSID = json['WPS_ID'];
-    wPSTT = json['WPS_TT'];
-    wPSCUSID = json['WPS_CUS_ID'];
-    wPSFIELDPROCESS = json['WPS_FIELD_PROCESS'];
-    wPSOFFICEPROCESS = json['WPS_OFFICE_PROCESS'];
-    wPSFACTORYPROCESS = json['WPS_FACTORY_PROCESS'];
-    wPSLOGINID = json['WPS_LOGIN_ID'];
-    wPSLASTCOMMENT = json['WPS_LAST_COMMENT'];
   }
 
   Map<String, dynamic> toJson() {
@@ -108,14 +81,6 @@ class GetAllCancelData {
     data['REFER_TO'] = this.rEFERTO;
     data['CUS_LAST_COMMENT'] = this.cUSLASTCOMMENT;
     data['CUS_DATE'] = this.cUSDATE;
-    data['WPS_ID'] = this.wPSID;
-    data['WPS_TT'] = this.wPSTT;
-    data['WPS_CUS_ID'] = this.wPSCUSID;
-    data['WPS_FIELD_PROCESS'] = this.wPSFIELDPROCESS;
-    data['WPS_OFFICE_PROCESS'] = this.wPSOFFICEPROCESS;
-    data['WPS_FACTORY_PROCESS'] = this.wPSFACTORYPROCESS;
-    data['WPS_LOGIN_ID'] = this.wPSLOGINID;
-    data['WPS_LAST_COMMENT'] = this.wPSLASTCOMMENT;
     return data;
   }
 }

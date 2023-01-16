@@ -7,14 +7,18 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:kelashakti/Views/Model/get_all_complete.dart';
 import 'package:kelashakti/Views/Model/login_model.dart';
 import 'package:kelashakti/Views/Model/search_model.dart';
+import 'package:kelashakti/Views/Model/visited_model.dart';
 import 'package:kelashakti/Views/Services/Shared_preferance.dart';
 import 'package:kelashakti/Views/Services/api_endpoint.dart';
 import '../../Utils/loader.dart';
+import '../Model/acceptModel.dart';
 import '../Model/alert_model.dart';
 import '../Model/common_model.dart';
 import '../Model/get_all_cancel.dart';
 import '../Model/get_all_enquiry.dart';
 import '../Model/refer_list_model.dart';
+import '../dashboard/bottomNavBar2.dart';
+import '../dashboard/bottomNavbar.dart';
 import 'dio_client.dart';
 import 'package:http/http.dart' as http;
 Dio dio = Dio();
@@ -46,6 +50,13 @@ class ApiService {
         Preferances.setString("userToken", responseData.token);
         Preferances.setString("userType", responseData.type);
         Preferances.setString("cookie",cookies[0].split(';')[0]);
+        if(responseData.type==1){
+          Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
+          const BottomNavBar(0)), (Route<dynamic> route) => false);
+        }else if(responseData.type==2){
+          Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
+          const BottomNavBar2()), (Route<dynamic> route) => false);
+        }
         Fluttertoast.showToast(
           msg: 'Login Sucessfully...',
           backgroundColor: Colors.grey,
@@ -54,7 +65,7 @@ class ApiService {
         return responseData;
       } else {
         Fluttertoast.showToast(
-          msg: "invalied",
+          msg: "invalid",
           backgroundColor: Colors.grey,
         );
         Loader.hideLoader();
@@ -238,7 +249,7 @@ class ApiService {
 
   Future<GetAllCancel?> cancel(BuildContext context) async {
     try {
-      Loader.showLoader();
+     Loader.showLoader();
       String? userid = await Preferances.getString("userId");
       String? type = await Preferances.getString("userType");
       var formData = FormData.fromMap({
@@ -249,13 +260,11 @@ class ApiService {
       Response response;
       response = await dio.post(ApiEndPoints.getAllApi,
         data: formData,
-
       );
       print(response.data);
 
       if (response.statusCode == 200) {
         GetAllCancel getAllCancel = GetAllCancel.fromJson(response.data);
-        print(response.data);
         Loader.hideLoader();
         return getAllCancel;
       } else {
@@ -264,50 +273,38 @@ class ApiService {
       }
     } on DioError catch (e) {
       Loader.hideLoader();
-      print("active api dio");
       debugPrint('Dio E  $e');
     }
     return null;
   }
 
-
-
   Future updateField(BuildContext context, {
     Map? data,
   }) async {
-    print("1");
     try {
       String? userid = await Preferances.getString("userId");
       String? token = await Preferances.getString("userToken");
       String? type = await Preferances.getString("userType");
-      print("2");
+      String? cookie = await Preferances.getString("cookie");
 
-      // Response response;
-      print("3");
       var url = "https://tinkubhaiya.provisioningtech.com/post_ajax/update_field_process/";
       var response = await http.post(
         Uri.parse(url),
-        // headers: { "Client-Service": 'frontend-client',
-        //   "Auth-Key": 'simplerestapi',
-        //   "User-ID": "1",
-        //   "Authorization": token.toString(),
-        //   "type": "1",},
+        headers: { "Client-Service": 'frontend-client',
+          "Auth-Key": 'simplerestapi',
+          'User-ID': userid!.replaceAll('"', '').replaceAll('"', '').toString(),
+          'Authorization':token!.replaceAll('"', '').replaceAll('"', '').toString(),
+          'type': type!.replaceAll('"', '').replaceAll('"', '').toString(),
+          'Cookie': cookie!.replaceAll('"', '').replaceAll('"', '').toString(),
+        },
         body: data,
-
       );
-      print("4");
       if (response.statusCode == 200) {
-        print("5");
         debugPrint('add account  ----- > ${response.body}');
-        // CommonModel responseData =
-        // CommonModel.fromJson(response.body);
-        // return responseData;
       } else {
-        print("6");
         throw Exception(response.body);
       }
     } on DioError catch (e) {
-      print("7");
       debugPrint('Dio E  $e');
     }
   }
@@ -315,39 +312,32 @@ class ApiService {
   Future updateOffice(BuildContext context, {
     Map? data,
   }) async {
-    print("1");
+
     try {
       String? userid = await Preferances.getString("userId");
       String? token = await Preferances.getString("userToken");
       String? type = await Preferances.getString("userType");
-      print("2");
-
-      // Response response;
-      print("3");
+      String? cookie = await Preferances.getString("cookie");
       var url = "https://tinkubhaiya.provisioningtech.com/post_ajax/update_office_process/";
       var response = await http.post(
         Uri.parse(url),
-        // headers: { "Client-Service": 'frontend-client',
-        //   "Auth-Key": 'simplerestapi',
-        //   "User-ID": "1",
-        //   "Authorization": token.toString(),
-        //   "type": "1",},
+        headers: { "Client-Service": 'frontend-client',
+          "Auth-Key": 'simplerestapi',
+          'User-ID': userid!.replaceAll('"', '').replaceAll('"', '').toString(),
+          'Authorization':token!.replaceAll('"', '').replaceAll('"', '').toString(),
+          'type': type!.replaceAll('"', '').replaceAll('"', '').toString(),
+          'Cookie': cookie!.replaceAll('"', '').replaceAll('"', '').toString(),
+        },
         body: data,
 
       );
-      print("4");
+
       if (response.statusCode == 200) {
-        print("5");
         debugPrint('add account  ----- > ${response.body}');
-        // CommonModel responseData =
-        // CommonModel.fromJson(response.body);
-        // return responseData;
       } else {
-        print("6");
         throw Exception(response.body);
       }
     } on DioError catch (e) {
-      print("7");
       debugPrint('Dio E  $e');
     }
   }
@@ -359,14 +349,17 @@ class ApiService {
       String? userid = await Preferances.getString("userId");
       String? token = await Preferances.getString("userToken");
       String? type = await Preferances.getString("userType");
+      String? cookie = await Preferances.getString("cookie");
       var url = "https://tinkubhaiya.provisioningtech.com/post_ajax/update_factory_process/";
       var response = await http.post(
         Uri.parse(url),
-        // headers: { "Client-Service": 'frontend-client',
-        //   "Auth-Key": 'simplerestapi',
-        //   "User-ID": "1",
-        //   "Authorization": token.toString(),
-        //   "type": "1",},
+        headers: { "Client-Service": 'frontend-client',
+          "Auth-Key": 'simplerestapi',
+          'User-ID': userid!.replaceAll('"', '').replaceAll('"', '').toString(),
+          'Authorization':token!.replaceAll('"', '').replaceAll('"', '').toString(),
+          'type': type!.replaceAll('"', '').replaceAll('"', '').toString(),
+          'Cookie': cookie!.replaceAll('"', '').replaceAll('"', '').toString(),
+        },
         body: data,
 
       );
@@ -384,25 +377,23 @@ class ApiService {
   Future updateComment(BuildContext context, {
     Map? data,
   }) async {
-    print("1");
     try {
       Loader.showLoader();
       String? userid = await Preferances.getString("userId");
       String? token = await Preferances.getString("userToken");
       String? type = await Preferances.getString("userType");
-      print("2");
-
-      // Response response;
-      print("3");
+      String? cookie = await Preferances.getString("cookie");
       var url = "https://tinkubhaiya.provisioningtech.com/post_ajax/update_comment_message/";
       var response = await http.post(
 
         Uri.parse(url),
-        // headers: { "Client-Service": 'frontend-client',
-        //   "Auth-Key": 'simplerestapi',
-        //   "User-ID": "1",
-        //   "Authorization": token.toString(),
-        //   "type": "1",},
+        headers: { "Client-Service": 'frontend-client',
+          "Auth-Key": 'simplerestapi',
+          'User-ID': userid!.replaceAll('"', '').replaceAll('"', '').toString(),
+          'Authorization':token!.replaceAll('"', '').replaceAll('"', '').toString(),
+          'type': type!.replaceAll('"', '').replaceAll('"', '').toString(),
+          'Cookie': cookie!.replaceAll('"', '').replaceAll('"', '').toString(),
+        },
         body: data,
 
       );
@@ -428,62 +419,33 @@ class ApiService {
   }) async {
     try {
       Loader.showLoader();
+      print("1");
       Response response;
       response = await dio.post("https://tinkubhaiya.provisioningtech.com/get_ajax/get_all_enquiry_by_date/",
         data: data,
 
       );
 
-
+      print("2");
       if (response.statusCode == 200) {
         SearchModel searchData = SearchModel.fromJson(response.data);
+        print("3");
         print(response.data);
         Loader.hideLoader();
         return searchData;
 
       } else {
         Loader.hideLoader();
+        print("4");
         throw Exception(response.data);
       }
     } on DioError catch (e) {
-
+      print("5");
       debugPrint('Dio E  $e');
       Loader.hideLoader();
     }
     return null;
   }
-
-  // Future<AlertModel?> alert(BuildContext context, ) async {
-  //   try {
-  //     Loader.showLoader();
-  //     String? userid = await Preferances.getString("userId");
-  //
-  //
-  //     var url = "https://tinkubhaiya.provisioningtech.com/get_ajax/get_alert_list/";
-  //     var response = await http.post(
-  //       Uri.parse(url),
-  //       body: {
-  //         'id': userid!.replaceAll('"', '').replaceAll('"', '').toString(),
-  //       },);
-  //     if (response.statusCode == 200) {
-  //       debugPrint('add account  ----- > ${response.body}');
-  //       AlertModel alertData = AlertModel.fromJson(response.body);
-  //
-  //      // print(userid!.replaceAll('"', '').replaceAll('"', '').toString());
-  //
-  //       Loader.hideLoader();
-  //
-  //
-  //     } else {
-  //       Loader.hideLoader();
-  //       throw Exception(response.body);
-  //
-  //     }
-  //   } on DioError catch (e) {
-  //     Loader.hideLoader();
-  //     debugPrint('Dio E  $e');
-  //   }
-  // }
 
   Future<AlertModel?> alert(BuildContext context) async {
     try {
@@ -554,6 +516,156 @@ class ApiService {
     } on DioError catch (e) {
       Loader.hideLoader();
       debugPrint('Dio E  $e');
+    }
+  }
+
+  Future<AcceptModel?> accept(BuildContext context) async {
+    try {
+      Loader.showLoader();
+      String? userid = await Preferances.getString("userId");
+      String? type = await Preferances.getString("userType");
+      var formData = FormData.fromMap({
+        'loginid': userid?.replaceAll('"', '').replaceAll('"', '').toString(),
+        'status': 0,
+        'fieldprocess': 1,
+
+      });
+      print(userid?.replaceAll('"', '').replaceAll('"', '').toString(),);
+      print(type?.replaceAll('"', '').replaceAll('"', '').toString(),);
+      Response response;
+      response = await dio.post("https://tinkubhaiya.provisioningtech.com/get_ajax/get_pending_leads",
+        data: formData,
+      );
+      if (response.statusCode == 200) {
+        AcceptModel acceptModel = AcceptModel.fromJson(
+            response.data);
+        print(response.data);
+        Loader.hideLoader();
+        return acceptModel;
+      } else {
+        Loader.hideLoader();
+        throw Exception(response.data);
+      }
+    } on DioError catch (e) {
+      Loader.hideLoader();
+      debugPrint('Dio E  $e');
+    }
+  }
+
+  Future<VisitedModel?> visited(BuildContext context) async {
+    try {
+      Loader.showLoader();
+      String? userid = await Preferances.getString("userId");
+      String? type = await Preferances.getString("userType");
+      var formData = FormData.fromMap({
+        'loginid': userid?.replaceAll('"', '').replaceAll('"', '').toString(),
+        'status':1,
+        'fieldprocess': 1,
+
+      });
+      print(userid?.replaceAll('"', '').replaceAll('"', '').toString(),);
+      print(type?.replaceAll('"', '').replaceAll('"', '').toString(),);
+      Response response;
+      response = await dio.post("https://tinkubhaiya.provisioningtech.com/get_ajax/get_pending_leads",
+        data: formData,
+      );
+      if (response.statusCode == 200) {
+        VisitedModel visitedModel = VisitedModel.fromJson(
+            response.data);
+        print(response.data);
+        Loader.hideLoader();
+        return visitedModel;
+      } else {
+        Loader.hideLoader();
+        throw Exception(response.data);
+      }
+    } on DioError catch (e) {
+      Loader.hideLoader();
+      debugPrint('Dio E  $e');
+    }
+  }
+
+  Future confirmMessage(BuildContext context, {
+    Map? data,
+  }) async {
+    try {
+      Loader.showLoader();
+      String? userid = await Preferances.getString("userId");
+      String? token = await Preferances.getString("userToken");
+      String? type = await Preferances.getString("userType");
+      String? cookie = await Preferances.getString("cookie");
+      var url = "https://tinkubhaiya.provisioningtech.com/post_ajax/update_lead_status";
+      var response = await http.post(
+
+        Uri.parse(url),
+        headers: { "Client-Service": 'frontend-client',
+          "Auth-Key": 'simplerestapi',
+          'User-ID': userid!.replaceAll('"', '').replaceAll('"', '').toString(),
+          'Authorization':token!.replaceAll('"', '').replaceAll('"', '').toString(),
+          'type': type!.replaceAll('"', '').replaceAll('"', '').toString(),
+          'Cookie': cookie!.replaceAll('"', '').replaceAll('"', '').toString(),
+        },
+        body: data,
+
+      );
+
+      if (response.statusCode == 200) {
+
+        debugPrint('add account  ----- > ${response.body}');
+        Loader.hideLoader();
+        Fluttertoast.showToast(
+          msg: "Message Sent...",
+          backgroundColor: Colors.grey,
+        );
+
+      } else {
+        Loader.hideLoader();
+        throw Exception(response.body);
+
+      }
+    } on DioError catch (e) {
+      debugPrint('Dio E  $e');
+      Loader.hideLoader();
+    }
+  }
+
+  Future cancelMessage(BuildContext context, {
+    Map? data,
+  }) async {
+    try {
+      Loader.showLoader();
+      String? userid = await Preferances.getString("userId");
+      String? token = await Preferances.getString("userToken");
+      String? type = await Preferances.getString("userType");
+      String? cookie = await Preferances.getString("cookie");
+      var url = "https://tinkubhaiya.provisioningtech.com/post_ajax/update_lead_status";
+      var response = await http.post(
+
+        Uri.parse(url),
+        headers: { "Client-Service": 'frontend-client',
+          "Auth-Key": 'simplerestapi',
+          'User-ID': userid!.replaceAll('"', '').replaceAll('"', '').toString(),
+          'Authorization':token!.replaceAll('"', '').replaceAll('"', '').toString(),
+          'type': type!.replaceAll('"', '').replaceAll('"', '').toString(),
+          'Cookie': cookie!.replaceAll('"', '').replaceAll('"', '').toString(),
+        },
+        body: data,
+
+      );
+
+      if (response.statusCode == 200) {
+
+        debugPrint('add account  ----- > ${response.body}');
+        Loader.hideLoader();
+
+      } else {
+        Loader.hideLoader();
+        throw Exception(response.body);
+
+      }
+    } on DioError catch (e) {
+      debugPrint('Dio E  $e');
+      Loader.hideLoader();
     }
   }
 

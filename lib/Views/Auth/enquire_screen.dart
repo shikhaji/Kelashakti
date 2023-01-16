@@ -112,6 +112,7 @@ class _EnquireScreenState extends State<EnquireScreen> {
                                 fieldController: phoneController,
                                 fieldName: "Phone Number",
                                 hintName: "Enter Phone Number",
+                                prefixIcon: const Icon(Icons.phone),
                                 keyboard: TextInputType.phone,
                                 maxLines: 1,
                                 textInputAction:TextInputAction.done,
@@ -120,6 +121,8 @@ class _EnquireScreenState extends State<EnquireScreen> {
 
                                     return '* Is Required';
 
+                                  }else if(str.length != 10){
+                                    return '* Phone number must be of 10 digit';
                                   }
                                   return null;
                                 },
@@ -130,6 +133,7 @@ class _EnquireScreenState extends State<EnquireScreen> {
                                 fieldController: nameController,
                                 fieldName: "Full Name",
                                 hintName: "Full Name",
+                                prefixIcon: const Icon(Icons.perm_identity),
                                 keyboard: TextInputType.visiblePassword,
                                 maxLines: 1,
                                 textInputAction:TextInputAction.done,
@@ -147,6 +151,7 @@ class _EnquireScreenState extends State<EnquireScreen> {
                                 fieldController: addressController,
                                 fieldName: "Address",
                                 hintName: "Address",
+                                prefixIcon: const Icon(Icons.location_on_outlined),
                                 keyboard: TextInputType.visiblePassword,
                                 maxLines: 1,
                                 textInputAction:TextInputAction.done,
@@ -184,7 +189,7 @@ class _EnquireScreenState extends State<EnquireScreen> {
                                     "address":addressController.text.trim(),"referto":selectedRefer.toString()
                                   };
                                   ApiService().enquire(context,data: data).then((value){
-                                    Navigator.push(context, MaterialPageRoute(builder: (context) => BottomNavBar()));
+                                    Navigator.push(context, MaterialPageRoute(builder: (context) => BottomNavBar(0)));
                                   });
 
                                 },

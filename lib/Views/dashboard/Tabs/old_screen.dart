@@ -189,7 +189,7 @@ class _OldScreenState extends State<OldScreen> {
                               String? type =
                                   await Preferances.getString("userType");
                               FormData data() {
-                                print("selectedStatus:=${selectedStatus}");
+                                print("selectedStatus:=$selectedStatus");
                                 return FormData.fromMap({
                                   'type': userid
                                       ?.replaceAll('"', '')
@@ -200,17 +200,18 @@ class _OldScreenState extends State<OldScreen> {
                                       .replaceAll('"', '')
                                       .toString(),
                                   'status': selectedStatus,
-                                  'from': '2022-12-01',
-                                  'to': '2023-01-08'
+                                  'from': '${start.year}-${start.month}-${start.day}',
+                                  'to': '${end.year}-${end.month}-${end.day}'
                                 });
                               }
 
                               print(data);
                               ApiService().search(context, data: data()).then((value){
                                 if(value!.message == "ok"){
+                                  if(value.users!=null){
                                  setState(() {
                                    searchData = value.users!;
-                                 });
+                                 });}
                                }
                               });
                             },
@@ -234,7 +235,11 @@ class _OldScreenState extends State<OldScreen> {
                       child: SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: SingleChildScrollView(
-                      child: DataTable(
+                      child:searchData.isEmpty?  Column(children:const [
+                        SizedBox(height: 50,),
+                        Text("No Data Found!!"),
+
+                      ] ) : DataTable(
                         dataRowHeight: 10.h,
                         border: TableBorder.all(
 
@@ -243,7 +248,7 @@ class _OldScreenState extends State<OldScreen> {
                             width: 2),
                         columns:  [
 
-                          DataColumn(label: Text('Lead'),tooltip: "name",),
+                          const DataColumn(label: Text('Lead'),tooltip: "name",),
                           DataColumn(label: Padding(
                             padding: EdgeInsets.symmetric(vertical: 1.h,),
                             child: Column(
@@ -433,7 +438,7 @@ class _OldScreenState extends State<OldScreen> {
                                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                       children: [
                                         Container(
-                                          // Preferances.setString("userId", response.wPSID);
+
                                           margin:EdgeInsets.only(right: 1.h),
                                           height: 5.h,
                                           width: 8.w,

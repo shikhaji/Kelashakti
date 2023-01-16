@@ -66,6 +66,7 @@ class _TeamScreenState extends State<TeamScreen> {
 
                                 fieldName: "Name",
                                 hintName: " Name",
+                                prefixIcon: const Icon(Icons.perm_identity),
                                 keyboard: TextInputType.visiblePassword,
                                 maxLines: 1,
                                 textInputAction:TextInputAction.done,
@@ -84,6 +85,7 @@ class _TeamScreenState extends State<TeamScreen> {
                                 fieldName: "Phone Number",
                                 hintName: " Phone Number",
                                 keyboard: TextInputType.phone,
+                                prefixIcon: const Icon(Icons.phone),
                                 maxLines: 1,
                                 textInputAction:TextInputAction.done,
                                 validator: (str) {
@@ -91,6 +93,8 @@ class _TeamScreenState extends State<TeamScreen> {
 
                                     return '* Is Required';
 
+                                  }else if(str.length != 10){
+                                    return '* Phone number must be of 10 digit';
                                   }
                                   return null;
                                 },
@@ -101,6 +105,7 @@ class _TeamScreenState extends State<TeamScreen> {
                                 fieldController: passwordController,
                                 fieldName: "Password",
                                 hintName: " Password",
+                                prefixIcon: const Icon(Icons.password),
                                 keyboard: TextInputType.visiblePassword,
                                 maxLines: 1,
                                 textInputAction:TextInputAction.done,
@@ -121,7 +126,7 @@ class _TeamScreenState extends State<TeamScreen> {
                                     "name": nameController.text.trim(),"phone" : phoneController.text.trim(),"password":passwordController.text.trim()
                                   };
                                  ApiService().addAccount(context,data: data);
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) => BottomNavBar()));
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => BottomNavBar(0)));
                                 },
                                 buttonText: "Click To Add",
                                 height: 5.h,

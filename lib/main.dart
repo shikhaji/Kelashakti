@@ -7,6 +7,7 @@ import 'package:sizer/sizer.dart';
 import 'Utils/scrren_utils.dart';
 import 'Views/Auth/forgotPassword_screen.dart';
 import 'Views/Auth/login_screen.dart';
+import 'Views/dashboard/bottomNavBar2.dart';
 import 'Views/dashboard/bottomNavbar.dart';
 import 'Views/dashboard/dashboard_Active_screen.dart';
 
@@ -23,6 +24,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final botToastBuilder = BotToastInit();
+
 
     return Sizer(
         builder: (context, orientation, deviceType){

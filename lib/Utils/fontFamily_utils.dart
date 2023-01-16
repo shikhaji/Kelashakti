@@ -49,6 +49,18 @@ class FontTextStyle {
     fontSize: 16.sp,
       fontWeight: FontWeightClass.medium);
 
+  static TextStyle poppinsS16W4redColor =
+  poppinsS12W4PrimaryColor.copyWith(
+      color: ColorUtils.redColor,
+      fontSize: 16.sp,
+      fontWeight: FontWeightClass.medium);
+
+  static TextStyle poppinsS18W7redColor =
+  poppinsS12W4PrimaryColor.copyWith(
+      color: ColorUtils.redColor,
+      fontSize: 18.sp,
+      fontWeight: FontWeightClass.bold);
+
   static TextStyle poppinsS14W4blackColor =
   poppinsS12W4PrimaryColor.copyWith(color: ColorUtils.blackColor,
       fontWeight: FontWeightClass.semiB);

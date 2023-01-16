@@ -22,16 +22,21 @@ class _ForgotState extends State<Forgot> {
       child: SafeArea(
         child: Scaffold(
             body: Container(
-              color: ColorUtils.skyColor,
-              child: Center(
+              color: ColorUtils.skyBlueColor,
+              child: SingleChildScrollView(
                 child: Padding(
                   padding: const EdgeInsets.all(2),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      SizedBox(height: 7.h,),
-                      Container(
-                        child:Text("KelaShakti", style: FontTextStyle.poppinsS26W7WhiteColor,),
+                      SizedBox(height: 2.h,),
+                      Column(
+                        children: [
+                        SizedBox(height: 5.h,),
+                        Image.asset("assets/images/logo.png",scale: 7,),
+                        SizedBox(height: 4.h,),
+                        Text("Forgot Password Screen",style: FontTextStyle.poppinsS24W7PrimaryColor,),
+                        ],
                       ),
 
 
@@ -40,7 +45,8 @@ class _ForgotState extends State<Forgot> {
                         padding: EdgeInsets.symmetric(horizontal: 5.w,),
                         child: Column(
                           children: [
-                            SizedBox(height: 12.h,),
+
+                            SizedBox(height: 4.h,),
                             Icon(
                               Icons.lock,
                               color: ColorUtils.primaryColor,
@@ -54,6 +60,7 @@ class _ForgotState extends State<Forgot> {
 
                               fieldName: "Phone Number",
                               hintName: " Phone Number",
+                              prefixIcon: const Icon(Icons.phone),
                               keyboard: TextInputType.phone,
                               maxLines: 1,
                               textInputAction:TextInputAction.done,
@@ -62,6 +69,8 @@ class _ForgotState extends State<Forgot> {
 
                                   return '* Is Required';
 
+                                }else if(str.length != 10){
+                                  return '* Phone number must be of 10 digit';
                                 }
                                 return null;
                               },

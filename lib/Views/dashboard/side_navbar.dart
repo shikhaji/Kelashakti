@@ -2,10 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kelashakti/Utils/color_utils.dart';
 import 'package:kelashakti/Utils/fontFamily_utils.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 
 import '../Auth/login_screen.dart';
 import '../Services/Shared_preferance.dart';
+import 'bottomNavbar.dart';
 
 class SideNavBar extends StatefulWidget {
   const SideNavBar({Key? key}) : super(key: key);
@@ -101,49 +103,66 @@ class _SideNavBarState extends State<SideNavBar> {
       color: Colors.transparent,
       child: ListTile(
         leading: Icon(icon,color: ColorUtils.primaryColor,size: 25,),
-        title: Text(text,style: FontTextStyle.poppinsS18W4blackColor,),
+        title: Text(text,style: FontTextStyle.poppinsS16W4PrimaryColor,),
         onTap: (){
-          if(text=="Logout"){
+          if(text=="Logout") {
             showDialog(
               context: context,
-              builder: (ctx) => AlertDialog(
-                title: const Text("Logout"),
-                content: const Text("Are You Sure ?"),
-                actions: <Widget>[
+              builder: (ctx) =>
+                  AlertDialog(
+                    title: const Text("Logout"),
+                    content: const Text("Are You Sure ?"),
+                    actions: <Widget>[
 
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      TextButton(
-                        onPressed: () {
-                          Navigator.of(ctx).pop();
-                        },
-                        child: Container(
-                          color: Colors.white,
-                          padding: const EdgeInsets.all(14),
-                          child: const Text("Cancel"),
-                        ),
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
-                          const LoginScreen()), (Route<dynamic> route) => false);
-                        },
-                        child: Container(
-                          color: Colors.white,
-                          padding: const EdgeInsets.all(14),
-                          child: const Text("okay"),
-                        ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(ctx).pop();
+                            },
+                            child: Container(
+                              color: Colors.white,
+                              padding: const EdgeInsets.all(14),
+                              child: const Text("Cancel"),
+                            ),
+                          ),
+                          TextButton(
+                            onPressed: ()async {
+                              SharedPreferences sharedPreferences =
+                                  await SharedPreferences.getInstance();
+                              sharedPreferences.clear();
+                              Navigator.of(context).pushAndRemoveUntil(
+                                  MaterialPageRoute(builder: (context) =>
+                                  const LoginScreen()), (
+                                  Route<dynamic> route) => false);
+                            },
+                            child: Container(
+                              color: Colors.white,
+                              padding: const EdgeInsets.all(14),
+                              child: const Text("okay"),
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
-                ],
-              ),
             );
-
+          }
+            if(text=="Home"){
+              Navigator.push(context, MaterialPageRoute(builder: (context)=> const BottomNavBar(0)));
+            }
+            if(text=="Team"){
+              Navigator.push(context, MaterialPageRoute(builder: (context)=> const BottomNavBar(1)));
+            }
+            if(text=="Add Lead"){
+              Navigator.push(context, MaterialPageRoute(builder: (context)=> const BottomNavBar(2)));
+            }
+            if(text=="Old"){
+              Navigator.push(context, MaterialPageRoute(builder: (context)=> const BottomNavBar(4)));
+            }
           }
 
-        },
       ),
     );
   }
