@@ -79,7 +79,7 @@ class _EnquireScreenState extends State<EnquireScreen> {
         child: Scaffold(
             drawer: const SideNavBar(),
             appBar: AppBar(
-              title: const Text("KelaShakti"),
+              title: const Text("KelaShakti Traders"),
               backgroundColor: ColorUtils.blackColor,
             ),
             body: Container(
@@ -200,6 +200,8 @@ class _EnquireScreenState extends State<EnquireScreen> {
 
                             ],
                           ),
+
+
                         )
 
 

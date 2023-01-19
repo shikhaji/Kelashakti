@@ -38,7 +38,7 @@ class _TeamScreenState extends State<TeamScreen> {
             drawer: const SideNavBar(),
             appBar: AppBar(
 
-              title: Text("KelaShakti"),
+              title: const Text("KelaShakti Traders"),
               backgroundColor: ColorUtils.blackColor,
             ),
             body: Container(

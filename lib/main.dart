@@ -47,15 +47,7 @@ class MyApp extends StatelessWidget {
                 );
               }
               );
-          //  const MaterialApp(
-          //   debugShowCheckedModeBanner: false,
-          //   //home: TeamScreen(),
-          //   home: LoginScreen(),
-          //   //home: BottomNavBar(),
-          //  // home: EnquireScreen(),
-          //
-          //
-          // );
+
 
         }
 

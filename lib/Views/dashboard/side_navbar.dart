@@ -2,10 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kelashakti/Utils/color_utils.dart';
 import 'package:kelashakti/Utils/fontFamily_utils.dart';
+import 'package:kelashakti/Views/dashboard/bottomNavBar2.dart';
+import 'package:kelashakti/Views/dashboard/team_list_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 
 import '../Auth/login_screen.dart';
+import '../Model/team_list_model.dart';
 import '../Services/Shared_preferance.dart';
 import 'bottomNavbar.dart';
 
@@ -70,6 +73,12 @@ class _SideNavBarState extends State<SideNavBar> {
                         text:"Old",
                         icon:Icons.history,
                       ),
+                      const SizedBox(height: 8,),
+                      buildMenuItem(
+                        context,
+                        text:"Team List",
+                        icon:Icons.history,
+                      ),
 
 
                       const SizedBox(height: 8,),
@@ -105,6 +114,10 @@ class _SideNavBarState extends State<SideNavBar> {
         leading: Icon(icon,color: ColorUtils.primaryColor,size: 25,),
         title: Text(text,style: FontTextStyle.poppinsS16W4PrimaryColor,),
         onTap: (){
+          if(text=="Team List"){
+            Navigator.push(context, MaterialPageRoute(builder: (context) =>
+                TeamListScreen()));
+          }
           if(text=="Logout") {
             showDialog(
               context: context,
@@ -161,6 +174,7 @@ class _SideNavBarState extends State<SideNavBar> {
             if(text=="Old"){
               Navigator.push(context, MaterialPageRoute(builder: (context)=> const BottomNavBar(4)));
             }
+
           }
 
       ),

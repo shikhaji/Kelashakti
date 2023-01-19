@@ -181,7 +181,8 @@ class _AcceptState extends State<Accept> {
                                                                         "id" :"${acceptData[index].cUSID}" ,
                                                                         "message" : msg1Controller.text,
                                                                         "loginid" : userid?.replaceAll('"', '').replaceAll('"', '').toString(),
-                                                                        "status" : '1'
+                                                                        "status" : '1',
+                                                                        "fieldprocess":'2'
                                                                       };
                                                                   ApiService().confirmMessage(context,data: data).then((value) {
                                                                     acceptApiCall();
@@ -249,7 +250,8 @@ class _AcceptState extends State<Accept> {
                                                                           "id" :"${acceptData[index].cUSID}" ,
                                                                           "message" : msg1Controller.text,
                                                                           "loginid" : userid?.replaceAll('"', '').replaceAll('"', '').toString(),
-                                                                          "status" : '3'
+                                                                          "status" : '3',
+                                                                          "fieldprocess":'1'
                                                                         };
                                                                         ApiService().cancelMessage(context,data: data).then((value) {
                                                                          acceptApiCall();

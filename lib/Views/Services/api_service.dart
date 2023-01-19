@@ -7,6 +7,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:kelashakti/Views/Model/get_all_complete.dart';
 import 'package:kelashakti/Views/Model/login_model.dart';
 import 'package:kelashakti/Views/Model/search_model.dart';
+import 'package:kelashakti/Views/Model/submited_model.dart';
 import 'package:kelashakti/Views/Model/visited_model.dart';
 import 'package:kelashakti/Views/Services/Shared_preferance.dart';
 import 'package:kelashakti/Views/Services/api_endpoint.dart';
@@ -245,7 +246,7 @@ class ApiService {
     return null;
   }
 
-  ///////////////////////////////// complete tab //////////////////////////////
+
 
   Future<GetAllCancel?> cancel(BuildContext context) async {
     try {
@@ -277,6 +278,9 @@ class ApiService {
     }
     return null;
   }
+
+
+
 
   Future updateField(BuildContext context, {
     Map? data,
@@ -560,7 +564,7 @@ class ApiService {
       var formData = FormData.fromMap({
         'loginid': userid?.replaceAll('"', '').replaceAll('"', '').toString(),
         'status':1,
-        'fieldprocess': 1,
+        'fieldprocess': 2,
 
       });
       print(userid?.replaceAll('"', '').replaceAll('"', '').toString(),);
@@ -666,6 +670,39 @@ class ApiService {
     } on DioError catch (e) {
       debugPrint('Dio E  $e');
       Loader.hideLoader();
+    }
+  }
+
+  Future<SubmitedModel?> submited(BuildContext context) async {
+    try {
+      Loader.showLoader();
+      String? userid = await Preferances.getString("userId");
+      String? type = await Preferances.getString("userType");
+      var formData = FormData.fromMap({
+        'loginid': userid?.replaceAll('"', '').replaceAll('"', '').toString(),
+        'status':2,
+        'fieldprocess': 3,
+
+      });
+      print(userid?.replaceAll('"', '').replaceAll('"', '').toString(),);
+      print(type?.replaceAll('"', '').replaceAll('"', '').toString(),);
+      Response response;
+      response = await dio.post("https://tinkubhaiya.provisioningtech.com/get_ajax/get_pending_leads",
+        data: formData,
+      );
+      if (response.statusCode == 200) {
+        SubmitedModel submitedModel = SubmitedModel.fromJson(
+            response.data);
+        print(response.data);
+        Loader.hideLoader();
+        return submitedModel;
+      } else {
+        Loader.hideLoader();
+        throw Exception(response.data);
+      }
+    } on DioError catch (e) {
+      Loader.hideLoader();
+      debugPrint('Dio E  $e');
     }
   }
 

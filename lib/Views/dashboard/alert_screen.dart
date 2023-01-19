@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:kelashakti/Utils/fontFamily_utils.dart';
 import 'package:kelashakti/Views/Model/alert_model.dart';
+import 'package:kelashakti/Views/dashboard/side_navbar.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../Utils/color_utils.dart';
@@ -33,82 +34,90 @@ class _AlertScreenState extends State<AlertScreen> {
   }
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color:ColorUtils.skyBlueColor,
-      child: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 10),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
+    return Scaffold(
+      drawer: const SideNavBar(),
+      appBar: AppBar(
 
-              Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Image.asset("assets/images/logo.png",scale: 12,),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Text("Alert screen",style: FontTextStyle.poppinsS18W4blackColor,)
-              ),
+        title: const Text("KelaShakti Traders"),
+        backgroundColor: ColorUtils.blackColor,
+      ),
+      body: Container(
+        color:ColorUtils.skyBlueColor,
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
 
-              getAllAlertData.isEmpty ? Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: const [
-                  SizedBox(height: 100,),
-                  Center(child: Text("No data Found!!"),),
-                ],
-              )  : SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: SingleChildScrollView(
-                  child: DataTable(
-                    dataRowHeight: 10.h,
-                    border: TableBorder.all(
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Image.asset("assets/images/logo.png",scale: 12,),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Text("Alert screen",style: FontTextStyle.poppinsS18W4blackColor,)
+                ),
 
-                        color: Colors.black,
-                        style: BorderStyle.solid,
-                        width: 2),
-                    columns: const [
+                getAllAlertData.isEmpty ? Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: const [
+                    SizedBox(height: 100,),
+                    Center(child: Text("No data Found!!"),),
+                  ],
+                )  : SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: SingleChildScrollView(
+                    child: DataTable(
+                      dataRowHeight: 10.h,
+                      border: TableBorder.all(
 
-                      DataColumn(label: Text('Lead'),tooltip: "name",),
-                      DataColumn(label: Text('Date Of Enquiry'),tooltip: "name"),
-                      DataColumn(label: Text('Hold By'),tooltip: "name"),
-                      DataColumn(label: Text('Date of Cancel'),tooltip: "name"),
+                          color: Colors.black,
+                          style: BorderStyle.solid,
+                          width: 2),
+                      columns: const [
+
+                        DataColumn(label: Text('Lead'),tooltip: "name",),
+                        DataColumn(label: Text('Date Of Enquiry'),tooltip: "name"),
+                        DataColumn(label: Text('Hold By'),tooltip: "name"),
+                        DataColumn(label: Text('Date of Cancel'),tooltip: "name"),
 
 
-                    ],
-                    rows: List.generate(getAllAlertData.length, (index) {
-                      var cdate="${getAllAlertData[index].cUSTT}";
-                      var date=  DateFormat('dd-MM-yyy').format(DateTime.parse("${cdate}"));
+                      ],
+                      rows: List.generate(getAllAlertData.length, (index) {
+                        var cdate="${getAllAlertData[index].cUSTT}";
+                        var date=  DateFormat('dd-MM-yyy').format(DateTime.parse("${cdate}"));
 
 
-                      return DataRow(cells: [
-                        DataCell(
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text("${getAllAlertData[index].cUSNAME}"),
-                                Text("${getAllAlertData[index].cUSPHONE}"),
-                                Text("${getAllAlertData[index].cUSADDRESS}"),
-                              ],
-                            )
-                        ),
-                        DataCell(
-                          Text(date),
-                        ),
-                        DataCell(
-                          Text(date),
-                        ),
-                        DataCell(
-                          Text(date),
-                        ),
+                        return DataRow(cells: [
+                          DataCell(
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text("${getAllAlertData[index].cUSNAME}"),
+                                  Text("${getAllAlertData[index].cUSPHONE}"),
+                                  Text("${getAllAlertData[index].cUSADDRESS}"),
+                                ],
+                              )
+                          ),
+                          DataCell(
+                            Text(date),
+                          ),
+                          DataCell(
+                            Text(date),
+                          ),
+                          DataCell(
+                            Text(date),
+                          ),
 
-                      ]);
-                    }),
+                        ]);
+                      }),
 
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

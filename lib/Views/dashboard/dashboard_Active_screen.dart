@@ -72,8 +72,7 @@ class _DashboardActiveState extends State<DashboardActive> with SingleTickerProv
             resizeToAvoidBottomInset: false,
             drawer: const SideNavBar(),
             appBar: AppBar(
-              title: Text("KelaShakti"),
-            
+              title: const Text("KelaShakti Traders"),
               backgroundColor: ColorUtils.blackColor,
             ),
             body: Column(

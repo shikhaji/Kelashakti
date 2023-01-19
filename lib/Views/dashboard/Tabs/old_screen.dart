@@ -38,10 +38,7 @@ class _OldScreenState extends State<OldScreen> {
         child: Scaffold(
             drawer: const SideNavBar(),
             appBar: AppBar(
-
-              // default is 56
-              title: Text("KelaShakti"),
-
+              title: const Text("KelaShakti Traders"),
               backgroundColor: ColorUtils.blackColor,
             ),
             body: Container(
