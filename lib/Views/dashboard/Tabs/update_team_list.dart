@@ -1,34 +1,48 @@
-import 'dart:convert';
-
-//import 'package:dio/dio.dart';
-import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:kelashakti/Views/Services/api_service.dart';
-import 'package:kelashakti/Views/dashboard/side_navbar.dart';
+import 'package:kelashakti/Views/Model/team_list_model.dart';
 import 'package:sizer/sizer.dart';
 
-import '../../Utils/color_utils.dart';
-import '../../Utils/fontFamily_utils.dart';
-import '../../Utils/loader.dart';
-import '../Services/Shared_preferance.dart';
-import '../customeWidgets/custom_text_field.dart';
-import '../customeWidgets/cutom_btn.dart';
-import 'bottomNavbar.dart';
-class TeamScreen extends StatefulWidget {
-  const TeamScreen({Key? key}) : super(key: key);
+import '../../../Utils/color_utils.dart';
+import '../../../Utils/fontFamily_utils.dart';
+import '../../Services/api_service.dart';
+import '../../customeWidgets/custom_text_field.dart';
+import '../../customeWidgets/cutom_btn.dart';
+import '../bottomNavbar.dart';
+import '../side_navbar.dart';
+import '../team_list_screen.dart';
+
+class UpdateTeamList extends StatefulWidget {
+  final name;
+  final phone;
+  final address;
+  final password;
+
+  const UpdateTeamList({Key? key, this.name, this.phone, this.address, this.password}) : super(key: key);
 
   @override
-  State<TeamScreen> createState() => _TeamScreenState();
-
+  State<UpdateTeamList> createState() => _UpdateTeamListState();
 }
 
-class _TeamScreenState extends State<TeamScreen> {
+class _UpdateTeamListState extends State<UpdateTeamList> {
   TextEditingController nameController= TextEditingController();
   TextEditingController phoneController= TextEditingController();
-  TextEditingController passwordController= TextEditingController();
   TextEditingController addressController= TextEditingController();
-  final _formKey = GlobalKey<FormState>();
+  TextEditingController passwordController= TextEditingController();
+
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    setState(() {
+      nameController.text=widget.name;
+      phoneController.text=widget.phone;
+      addressController.text=widget.address;
+      passwordController.text=widget.password;
+
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +50,7 @@ class _TeamScreenState extends State<TeamScreen> {
       color: ColorUtils.appBgColor,
       child: SafeArea(
         child: Scaffold(
-            drawer: const SideNavBar(),
+
             appBar: AppBar(
 
               title: const Text("KST"),
@@ -54,20 +68,19 @@ class _TeamScreenState extends State<TeamScreen> {
                       children: [
                         SizedBox(height: 7.h,),
                         Image.asset("assets/images/logo.png",scale: 7,),
-                        SizedBox(height: 2.h,),
-                        Text("Team Screen", style: FontTextStyle.poppinsS24W7PrimaryColor,),
+                        SizedBox(height: 4.h,),
+                        Text("Team Update Screen", style: FontTextStyle.poppinsS24W7PrimaryColor,),
 
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 5.w,),
                           child: Column(
                             children: [
-                              SizedBox(height: 10.h,),
+                              SizedBox(height: 8.h,),
                               CustomTextField(
                                 fieldController: nameController,
 
                                 fieldName: "Name",
                                 hintName: " Name",
-                                prefixIcon: const Icon(Icons.perm_identity),
                                 keyboard: TextInputType.visiblePassword,
                                 maxLines: 1,
                                 textInputAction:TextInputAction.done,
@@ -86,7 +99,6 @@ class _TeamScreenState extends State<TeamScreen> {
                                 fieldName: "Phone Number",
                                 hintName: " Phone Number",
                                 keyboard: TextInputType.phone,
-                                prefixIcon: const Icon(Icons.phone),
                                 maxLines: 1,
                                 textInputAction:TextInputAction.done,
                                 validator: (str) {
@@ -101,13 +113,11 @@ class _TeamScreenState extends State<TeamScreen> {
                                 },
                               ),
                               SizedBox(height: 2.h,),
-
                               CustomTextField(
                                 fieldController: passwordController,
                                 fieldName: "Password",
-                                hintName: " Password",
-                                prefixIcon: const Icon(Icons.password),
-                                keyboard: TextInputType.visiblePassword,
+                                hintName: "Password",
+                                keyboard: TextInputType.phone,
                                 maxLines: 1,
                                 textInputAction:TextInputAction.done,
                                 validator: (str) {
@@ -120,11 +130,11 @@ class _TeamScreenState extends State<TeamScreen> {
                                 },
                               ),
                               SizedBox(height: 2.h,),
+
                               CustomTextField(
                                 fieldController: addressController,
                                 fieldName: "Address",
-                                hintName: "Address",
-                                prefixIcon: const Icon(Icons.password),
+                                hintName: " Address",
                                 keyboard: TextInputType.visiblePassword,
                                 maxLines: 1,
                                 textInputAction:TextInputAction.done,
@@ -137,17 +147,17 @@ class _TeamScreenState extends State<TeamScreen> {
                                   return null;
                                 },
                               ),
-                              SizedBox(height: 2.h,),
+                              SizedBox(height: 4.h,),
                               CustomButton(
                                 onTap: () async {
 
                                   Map<String,dynamic> data = {
-                                    "name": nameController.text.trim(),"phone" : phoneController.text.trim(),"password":passwordController.text.trim(),"address":addressController.text.trim()
+                                    "name": nameController.text.trim(),"phone" : phoneController.text.trim(),"address":addressController.text.trim(),"password":passwordController.text.trim()
                                   };
-                                 ApiService().addAccount(context,data: data);
+                                  ApiService().addAccount(context,data: data);
                                   Navigator.push(context, MaterialPageRoute(builder: (context) => BottomNavBar(0)));
                                 },
-                                buttonText: "Click To Add",
+                                buttonText: "Update",
                                 height: 5.h,
                                 textStyle: FontTextStyle.poppinsS16W7WhiteColor,
                               ),
@@ -169,11 +179,4 @@ class _TeamScreenState extends State<TeamScreen> {
       ),
     );
   }
-
-
-
-
 }
-
-
-

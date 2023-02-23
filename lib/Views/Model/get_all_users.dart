@@ -32,7 +32,7 @@ class Users {
   Null? fIRMID;
   String? bRANCHNAME;
   Null? bRANCHCODE;
-  Null? bRANCHADDRESS;
+  String? bRANCHADDRESS;
   Null? bRANCHSTATE;
   Null? bRANCHCITY;
   String? bRANCHCONTACT;

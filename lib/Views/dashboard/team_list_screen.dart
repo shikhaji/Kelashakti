@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:kelashakti/Views/dashboard/Tabs/update_team_list.dart';
 import 'package:kelashakti/Views/dashboard/side_navbar.dart';
 import 'package:sizer/sizer.dart';
 
@@ -54,7 +55,7 @@ class _TeamListScreenState extends State<TeamListScreen> {
   Widget build(BuildContext context) {
     //
     return Container(
-      color: ColorUtils.appBgColor,
+      color: ColorUtils.skyBlueColor,
       child: SafeArea(
         child: Scaffold(
            // drawer: const SideNavBar(),
@@ -62,10 +63,10 @@ class _TeamListScreenState extends State<TeamListScreen> {
               leading: BackButton(
                   color: Colors.white
               ),
-              title: const Text("KelaShakti Traders"),
+              title: const Text("KST"),
               backgroundColor: ColorUtils.blackColor,
             ),
-            body:Container(
+            body: Container(
               child: getAllUser!.users!.length == 0  ? Center(child: Text("NO found data!"),): Container(
                 color:ColorUtils.skyBlueColor,
                 child: Padding(
@@ -93,6 +94,7 @@ class _TeamListScreenState extends State<TeamListScreen> {
                                     DataColumn(label: Text('Name'),tooltip: "name",),
                                     DataColumn(label: Text('Phone'),tooltip: "name"),
                                     DataColumn(label: Text('Address'),tooltip: "name"),
+                                    DataColumn(label: Text('Update'),tooltip: "name"),
                                    // DataColumn(label: Text('Password'),tooltip: "name"),
 
                                   ],
@@ -114,9 +116,16 @@ class _TeamListScreenState extends State<TeamListScreen> {
                                       DataCell(
                                         Text("${getAllUser!.users![index].bRANCHADDRESS}"),
                                       ),
-                                      // DataCell(
-                                      //   Text("${getAllUser!.users![index].bRANCHPASSWORD}"),
-                                      // ),
+                                      DataCell(
+                                        IconButton(onPressed: () {
+                                          Navigator.push(context, MaterialPageRoute(builder: (context)=> UpdateTeamList(
+                                            name:getAllUser!.users![index].bRANCHNAME!,
+                                            phone:getAllUser!.users![index].bRANCHCONTACT,
+                                            address:getAllUser!.users![index].bRANCHADDRESS,
+                                            password: getAllUser!.users![index].bRANCHVIEWPASSWORD,
+                                          )));
+                                        }, icon: Icon(Icons.edit),),
+                                      ),
 
                                     ]);
                                   }),
